@@ -1,7 +1,20 @@
 
 
-class ProjectType extends React.Component{
 
+class PhonakApp extends React.Component{
+	render(){
+		return (
+			<div>
+				<ProjectType title="Print marketing" />
+				<ProjectType title="Database marketing" />
+				<ProjectType title="Digital marketing" />
+				<ProjectType title="Events marketing " />
+			</div>
+		)
+	}
+}
+
+class ProjectType extends React.Component{
 	render(){
 		return (
 			<div>
@@ -12,21 +25,11 @@ class ProjectType extends React.Component{
 	}
 }
 
-class PhonakApp extends React.Component{
-	render(){
-		return (
-			<div>
-				<ProjectType title="Print marketing" />
-				<ProjectType title="Database marking" />
-				<ProjectType title="Digital marketing" />
-				<ProjectType title="Events marketing " />
-			</div>
-		)
-	}
-}
 
+
+var { BrowserRouter, Route } = ReactRouterDOM;
 
 ReactDOM.render(
-	<PhonakApp />,
+	<PhonakApp/>,
 	document.getElementById('phonak_app')
 );
