@@ -1,0 +1,100 @@
+#main-content .container.noSidebar:before{
+	display: none;
+}
+
+
+.project_list{
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.project_list > div{
+	width: 25%;
+	margin:20px;
+}
+
+
+.project_list > div img{
+	border: 1px solid #a8a8a8;
+}
+
+.project_list > div .button{
+    color: #ffffff;
+    background-color: #86bc23;
+    padding-top: 10px;
+    padding-right: 10px ;
+    padding-bottom: 10px ;
+    padding-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    display: block;
+}
+
+
+
+
+.project_elements{
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.project_elements > label{
+	width: 20%;
+	margin:20px;
+	text-align: center;
+	border-radius: 10px;
+	padding: 20px 7px 7px 7px;
+	position: relative;
+	background: #f1f1f1;
+	cursor: pointer;
+    box-shadow: inset 0 0 2px 3px #f1f1f1, inset 0 0 0 7px #86bc23;
+}
+.project_elements > label img{
+	border: 1px solid #a8a8a8;
+}
+
+
+.project_elements > label span.button{
+    color: #ffffff;
+    background-color: #86bc23;
+    padding-top: 10px;
+    padding-right: 10px ;
+    padding-bottom: 10px ;
+    padding-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    text-align: center;
+    display: block;
+    display: block;
+}
+.project_elements > label input{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+
+.project_request_form{
+
+}
+
+.project_request_form > div{
+	margin-bottom: 50px;
+}
+
+.project_request_form > div > div{
+	margin-bottom: 20px;
+}
+
+.project_request_form > div > div > label{
+	display: block;
+}
+
+.project_request_form > div > div > input[type="text"],
+.project_request_form > div > div > input[type="email"],
+.project_request_form > div > div > input[type="date"]{
+	width: 100%;
+}

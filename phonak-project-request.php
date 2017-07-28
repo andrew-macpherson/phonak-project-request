@@ -168,41 +168,71 @@ function phonak_project(){
 		echo '<p style="color: #86bc24">Project successfully submitted.<p>';
 	}else{ ?>
 
-		<form method="post" action="#" enctype="multipart/form-data">
+		<form class="project_request_form" method="post" action="#" enctype="multipart/form-data">
 
 			<input type="hidden" name="project_type" value="<?php echo get_queried_object()->name; ?>">
 
 			<?php
 			// CHECK FOR CHILDREN
 			$term_id = get_queried_object()->term_id;
-			$term_meta = get_option( 'taxonomy_'.$term_id ); 
+			$parent_term = get_term_by( 'id', term_id, $taxonomy_name );
+
+			print_r($parent_term);
+			echo '<h2>'.$parent_term->term_name.'</h2>';
+
 
 			$taxonomy_name = 'phonak-projects';
 			$term_children = get_term_children( $term_id, $taxonomy_name );
 
+			$term_children = get_terms( array( 
+			    'taxonomy' => $taxonomy_name,
+			    'parent'   => $term_id,
+			    'hide_empty'    => false,
+			    'hierarchical'    => true
+			) );
 
 
 			if(count($term_children) != 0){
-				echo '<ul>';
+				echo '<div class="project_list">';
 				foreach ( $term_children as $child ) {
-					$term = get_term_by( 'id', $child, $taxonomy_name );
-					echo '<li><a href="' . get_term_link( $child, $taxonomy_name ) . '">' . $term->name . '</a></li>';
+					$term = get_term_by( 'id', $child->term_id, $taxonomy_name );
+					$term_meta = get_option( 'taxonomy_'.$term->term_id ); 
+
+					echo '<div>';
+						echo '<a href="' . get_term_link( $child->term_id, $taxonomy_name ) . '">';
+							echo '<img src="'.$term_meta['project_thumbnail'].'" />';
+						echo '</a>';
+
+						echo '<a class="button" href="' . get_term_link( $child, $taxonomy_name ) . '">';
+							echo $term->name;
+						echo '</a>';
+
+					echo '</div>';
 				}
-				echo '</ul>';
+				echo '</div>';
 			}
 
 			// IF NO CHILDREN RENDER PROJECT ELEMENTS AND FORM
 			if(count($term_children) == 0){
 				if ( have_posts() ) :
+
+					echo '<h2>Campaign Elements</h2>';
+					echo '<p>Please select the campaign <strong>format</strong> you wish to order (you can choose more than one).</p>';
+
+
+					echo '<div class="project_elements">';
 					while ( have_posts() ) : the_post(); 
 				?>
-				<div>
-					<label><input type="checkbox" name="project_element[]" value="<?php the_title(); ?>|<?php echo get_post_meta(get_the_ID(),'artwork_url',true); ?>"> <?php the_title(); ?></label>
-				</div>
+					<label>
+						<?php echo the_post_thumbnail('thumbnail'); ?>
+						<input type="checkbox" name="project_element[]" value="<?php the_title(); ?>|<?php echo get_post_meta(get_the_ID(),'artwork_url',true); ?>"> 
+
+						<span class="button"><?php the_title(); ?></span>
+					</label>
 				<?php
 					endwhile;
+					echo '</div>';
 				endif;
-				
 				?>
 
 				<div>
@@ -380,8 +410,8 @@ function phonak_project(){
 					</div>
 					<div>
 						<label>Would you like to include a map?</label>
-						<input type="radio" name="clinic_include_map" value="yes" <?php if(isset($_POST['clinic_include_map']) && $_POST['clinic_include_map'] == 'yes'){ echo 'SELECTED'; } ?> />
-						<input type="radio" name="clinic_include_map" value="no" <?php if(isset($_POST['clinic_include_map']) && $_POST['clinic_include_map'] == 'no'){ echo 'SELECTED'; } ?> />
+						<label><input type="radio" name="clinic_include_map" value="yes" <?php if(isset($_POST['clinic_include_map']) && $_POST['clinic_include_map'] == 'yes'){ echo 'SELECTED'; } ?> /> Yes</label>
+						<label><input type="radio" name="clinic_include_map" value="no" <?php if(isset($_POST['clinic_include_map']) && $_POST['clinic_include_map'] == 'no'){ echo 'SELECTED'; } ?> /> No</label>
 					</div>
 					<div>
 					<label>Other Details</label>
@@ -524,6 +554,10 @@ function phonak_projects_taxonomy_add_new_meta_field() {
 			<option>Events marketing</option>
 		</select>
 	</div>
+	<div class="form-field">
+		<label for="term_meta[project_thumbnail]">Project Thumbnail</label>
+		<input type="text" name="term_meta[project_thumbnail]" value="">
+	</div>
 <?php
 }
 
@@ -547,6 +581,12 @@ function phonak_projects_taxonomy_edit_new_meta_field($term) {
 			</select>
 		</td>
 	</tr>
+	<tr class="form-field">
+	<th scope="row" valign="top"><label for="term_meta[custom_term_meta]">Project Thumbnail</label></th>
+		<td>
+			<input type="text" name="term_meta[project_thumbnail]" value="<?php echo $term_meta['project_thumbnail']; ?>">
+		</td>
+	</tr>
 
 <?php
 }
@@ -562,6 +602,7 @@ function save_phonak_projects_custom_meta( $term_id ) {
 
 		$term_meta = get_option( 'taxonomy_'.$t_id );
 		$term_meta['project_type'] = $_POST['term_meta']['project_type'];
+		$term_meta['project_thumbnail'] = $_POST['term_meta']['project_thumbnail'];
 
 		
 		// Save the option array.
