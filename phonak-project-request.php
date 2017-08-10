@@ -70,34 +70,37 @@ function phonak_project(){
 		$description = '';
 
 		foreach($_POST as $key => $val){
-			$description .= '<p><strong>'.str_replace($replace, $replaceWith, $key).': </strong>';
+			
+			if(strpos($key, 'section_') !== false){
+				$description .= '<br/><strong>'.$val.'</strong><br/>';
+			}else{
+				$description .= '<strong>'.ucwords(str_replace($replace, $replaceWith, $key)).': </strong>';
 				if(is_array($val)){
 					$artworkArray = array();
 					foreach($val as $subVal){
 						$parts = explode('|', $subVal);
 						$artworkArray[] = '<a href="'.$parts[1].'">'.$parts[0].'</a>';
 					}
-					$description .= implode(', ', $artworkArray);
-
+					$description .= implode(', ', $artworkArray).'<br/>';;
 
 				}else{
-					$description .= $val;
+					$description .= $val.'<br/>';
 				}
-			$description .= '</p>';
+			}
 		}
 
 
 		// Hit API
-		$username='netgain';
-		$password='Phon@Pass2';
+		$username='phonakmarketingwebsite';
+		$password='Phonak1176!';
 		$apikey = 'V81L-YXDN-U7M5-QOJ9-PWFM3UN-US7044';
 		$URL='https://api.proworkflow.net/projectrequests?apikey='.$apikey;
 
-		$projectTitle = 'phonakmarketing.ca Project Request | '.$_POST['clinic_name'].' | '.$_POST['project_type'];
+		$projectTitle = $_POST['clinic_name'].' | '.$_POST['project_type'];
 
 		$projectData = [
-			'title' => $projectTitle,
-			'description' => $description
+			'title' 		=> $projectTitle,
+			'description' 	=> $description
 		];
 
 		$ch = curl_init();
@@ -158,6 +161,8 @@ function phonak_project(){
 
 				$success = false;
 			}
+		}else{
+			print curl_error($ch);
 		}
 
 	}
@@ -176,6 +181,7 @@ function phonak_project(){
 			// CHECK FOR CHILDREN
 			$term_id = get_queried_object()->term_id;
 			$parent_term = get_term_by( 'id', term_id, $taxonomy_name );
+			$term_meta = get_option( 'taxonomy_'.$term_id ); 
 
 			print_r($parent_term);
 			echo '<h2>'.$parent_term->term_name.'</h2>';
@@ -196,11 +202,11 @@ function phonak_project(){
 				echo '<div class="project_list">';
 				foreach ( $term_children as $child ) {
 					$term = get_term_by( 'id', $child->term_id, $taxonomy_name );
-					$term_meta = get_option( 'taxonomy_'.$term->term_id ); 
+					$child_term_meta = get_option( 'taxonomy_'.$term->term_id ); 
 
 					echo '<div>';
 						echo '<a href="' . get_term_link( $child->term_id, $taxonomy_name ) . '">';
-							echo '<img src="'.$term_meta['project_thumbnail'].'" />';
+							echo '<img src="'.$child_term_meta['project_thumbnail'].'" />';
 						echo '</a>';
 
 						echo '<a class="button" href="' . get_term_link( $child, $taxonomy_name ) . '">';
@@ -214,6 +220,21 @@ function phonak_project(){
 
 			// IF NO CHILDREN RENDER PROJECT ELEMENTS AND FORM
 			if(count($term_children) == 0){
+
+				 query_posts(array( 
+			        'post_type' => 'project-elements',
+			        'showposts' => -1,
+			        'paged' => $paged, 
+			        'tax_query' => array( 
+				        array( 
+				            'taxonomy' => 'phonak-projects',
+				            'field' => 'id', 
+				            'terms' => array($term_id) 
+				        ) 
+				    ) 
+			    ) );  
+
+
 				if ( have_posts() ) :
 
 					echo '<h2>Campaign Elements</h2>';
@@ -223,18 +244,24 @@ function phonak_project(){
 					echo '<div class="project_elements">';
 					while ( have_posts() ) : the_post(); 
 				?>
-					<label>
-						<?php echo the_post_thumbnail('thumbnail'); ?>
-						<input type="checkbox" name="project_element[]" value="<?php the_title(); ?>|<?php echo get_post_meta(get_the_ID(),'artwork_url',true); ?>"> 
+					<input type="hidden" name="section_project_elements" value="PROJECT ELEMENTS" />
+					<div>
+						<label>
+							<?php echo the_post_thumbnail('thumbnail'); ?>
+							<input type="checkbox" name="project_element[]" value="<?php the_title(); ?>|<?php echo get_post_meta(get_the_ID(),'artwork_url',true); ?>"> 
 
-						<span class="button"><?php the_title(); ?></span>
-					</label>
+							<span class="button"><?php the_title(); ?></span>
+
+						</label>
+						<a class="view_example" target="_blank" href="<?php echo get_post_meta(get_the_ID(),'example_url',true); ?>">View Example</a>
+					</div>
 				<?php
 					endwhile;
 					echo '</div>';
 				endif;
 				?>
 
+				<input type="hidden" name="section_client_information" value="CLIENT INFORMATION" />
 				<div>
 					<h3>Clinic Information</h3>
 					<div>
@@ -262,6 +289,7 @@ function phonak_project(){
 				**
 				**/
 				if($term_meta['project_type'] == 'Print marketing - Newspaper Advertisement'){ ?>
+				<input type="hidden" name="section_ad_information" value="AD INFORMATION" />
 				<div>
 					<h3>Ad Information</h3>
 					<div>
@@ -292,8 +320,10 @@ function phonak_project(){
 				** Direct Mail
 				**
 				**/
+				echo 'term '.$term_meta['project_type']; 
 				if($term_meta['project_type'] == 'Print marketing - Direct Mail'){ ?>
 				<div>
+				<input type="hidden" name="section_direct_mail_information" value="DIRECT MAIL INFORMATION" />
 					<h3>Direct Mail Information</h3>
 					<div>
 						<label>When would you like to have your mailer distributed? (Please plan 4-6 weeks in advance in order to allow time for design, print and postage of all direct mail pieces.) </label>
@@ -324,6 +354,7 @@ function phonak_project(){
 				**
 				**/
 				if($term_meta['project_type'] == 'Print marketing - Newspaper Insert'){ ?>
+				<input type="hidden" name="section_newspaper_insert_information" value="NEWSPAPER INSERT INFORMATION" />
 				<div>
 					<h3>Newspaper Insert Information</h3>
 					<div>
@@ -355,8 +386,9 @@ function phonak_project(){
 				**
 				**/
 				if($term_meta['project_type'] == 'Database marking'){ ?>
+				<input type="hidden" name="section_database_marketing_information" value="DATABASE MARKETING INFORMATION" />
 				<div>
-					<h3>Database marking Information</h3>
+					<h3>Database marketing Information</h3>
 					<div>
 						<label>Date you would like to send? </label>
 						<input type="date" name="date_to_send" value="<?php if(isset($_POST['date_to_send'])){ echo $_POST['date_to_send']; } ?>" />
@@ -377,6 +409,7 @@ function phonak_project(){
 				**
 				**/
 				if($term_meta['project_type'] == 'Digital marketing'){ ?>
+				<input type="hidden" name="section_digital_marketing_information" value="DIGITAL MARKETING INFORMATION" />
 				<div>
 					<h3>Digital marketing Information</h3>
 					<div>
@@ -386,6 +419,8 @@ function phonak_project(){
 				</div>
 				<?php } ?>
 
+
+				<input type="hidden" name="section_clinic_information" value="CLINIC DETAILS" />
 				<div>
 					<h3>Clinic Content for Advertisement</h3>
 					<div>
@@ -510,8 +545,15 @@ add_action( 'admin_init', 'phonak_project_meta' );
 function display_phonak_project_meta_box( $project ) {
     global $post;
     $artwork_url = esc_html( get_post_meta( $project->ID, 'artwork_url', true ) );
+    $example_url = esc_html( get_post_meta( $project->ID, 'example_url', true ) );
     ?>
     <table style="width: 100%;">
+        <tr>
+            <td style="width: 100%">EXAMPLE URL</td>
+        </tr>
+        <tr>
+            <td><input type="text" style="width: 100%" name="example_url" value="<?php echo $example_url; ?>" /></td>
+        </tr>
         <tr>
             <td style="width: 100%">Artwork URL</td>
         </tr>
@@ -533,6 +575,11 @@ function custom_fields_phonak_project_update($post_id, $post ){
                 update_post_meta( $post_id, 'artwork_url', $_POST['artwork_url'] );
             }else{
                 update_post_meta( $post_id, 'artwork_url', '');
+            }
+            if ( isset( $_POST['example_url'] ) && $_POST['example_url'] != '' ) {
+                update_post_meta( $post_id, 'example_url', $_POST['example_url'] );
+            }else{
+                update_post_meta( $post_id, 'example_url', '');
             }
         }
     }

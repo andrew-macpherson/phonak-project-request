@@ -10,7 +10,7 @@
 }
 
 .project_list > div{
-	width: 25%;
+	width: 21%;
 	margin:20px;
 }
 
@@ -18,8 +18,8 @@
 .project_list > div img{
 	border: 1px solid #a8a8a8;
 }
-
-.project_list > div .button{
+.project_list > div
+ .button{
     color: #ffffff;
     background-color: #86bc23;
     padding-top: 10px;
@@ -41,7 +41,7 @@
 	flex-wrap: wrap;
 }
 
-.project_elements > label{
+.project_elements > div{
 	width: 20%;
 	margin:20px;
 	text-align: center;
@@ -52,12 +52,13 @@
 	cursor: pointer;
     box-shadow: inset 0 0 2px 3px #f1f1f1, inset 0 0 0 7px #86bc23;
 }
-.project_elements > label img{
+.project_elements > div img{
 	border: 1px solid #a8a8a8;
+	cursor: pointer;
 }
 
 
-.project_elements > label span.button{
+.project_elements > div span.button{
     color: #ffffff;
     background-color: #86bc23;
     padding-top: 10px;
@@ -70,10 +71,16 @@
     display: block;
     display: block;
 }
-.project_elements > label input{
+.project_elements > div input{
     position: absolute;
     top: 10px;
     right: 10px;
+}
+
+.project_elements .view_example{
+	padding: 10px 0;
+	display: block;
+	
 }
 
 
