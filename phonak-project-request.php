@@ -26,7 +26,7 @@ function phonak_marketing_request_app() {
 
 
 function phonak_marketing_request_enqueue_style() {
-	wp_enqueue_style( 'project-request', plugins_url().'/phonak-project-request/css/project-request.css', false ); 
+	wp_enqueue_style( 'project-request', plugins_url().'/phonak-project-request/css/project-request.css', false );
 }
 
 function phonak_marketing_request_enqueue_script() {
@@ -54,7 +54,7 @@ add_action( 'wp_enqueue_scripts', 'phonak_marketing_request_enqueue_script' );
 
 function phonak_project(){
 	$success = false;
-	//PROCESS FORM DATA IF SUBBMITED 
+	//PROCESS FORM DATA IF SUBBMITED
 	if(isset($_POST['submit'])){
 
 		// Filter out any post items we don't need. Example: submit
@@ -70,7 +70,7 @@ function phonak_project(){
 		$description = '';
 
 		foreach($_POST as $key => $val){
-			
+
 			if(strpos($key, 'section_') !== false){
 				$description .= '<br/><strong>'.$val.'</strong><br/>';
 			}else{
@@ -140,7 +140,7 @@ function phonak_project(){
 						$ch = curl_init();
 						curl_setopt($ch, CURLOPT_URL,$URL);
 						curl_setopt($ch, CURLOPT_USERPWD, $username.":".$password);
-						curl_setopt($ch, CURLOPT_TIMEOUT, 30); 
+						curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 						curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 						curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 						curl_setopt($ch, CURLOPT_POSTFIELDS, $fileData);
@@ -183,15 +183,16 @@ function phonak_project(){
 
 			$term_id = get_queried_object()->term_id;
 			$parent_term = get_term_by( 'term_id', $term_id, $taxonomy_name );
-			$term_meta = get_option( 'taxonomy_'.$term_id ); 
+			$term_meta = get_option( 'taxonomy_'.$term_id );
+			$sku_code = get_post_meta(get_the_ID(),'sku_code',true);
 
 			echo '<h2>'.$parent_term->name.'</h2>';
 
 
-			
+
 			$term_children = get_term_children( $term_id, $taxonomy_name );
 
-			$term_children = get_terms( array( 
+			$term_children = get_terms( array(
 			    'taxonomy' => $taxonomy_name,
 			    'parent'   => $term_id,
 			    'hide_empty'    => false,
@@ -203,10 +204,21 @@ function phonak_project(){
 				echo '<div class="project_list">';
 				foreach ( $term_children as $child ) {
 					$term = get_term_by( 'id', $child->term_id, $taxonomy_name );
-					$child_term_meta = get_option( 'taxonomy_'.$term->term_id ); 
+					$child_term_meta = get_option( 'taxonomy_'.$term->term_id );
+
+
+						//echo '<a href="' . get_term_link( $child->term_id, $taxonomy_name ) . '">';
+
+// echo $child_term_meta['custom_url'];  } else{ . get_term_link( $child->term_id, $taxonomy_name ) . }
+
+
 
 					echo '<div>';
+					 if(!empty($child_term_meta['custom_url'])) {
+						echo '<a href="' .$child_term_meta['custom_url']. '" target="_blank">';
+						} else{
 						echo '<a href="' . get_term_link( $child->term_id, $taxonomy_name ) . '">';
+						}
 							echo '<img src="'.$child_term_meta['project_thumbnail'].'" />';
 						echo '</a>';
 
@@ -222,18 +234,18 @@ function phonak_project(){
 			// IF NO CHILDREN RENDER PROJECT ELEMENTS AND FORM
 			if(count($term_children) == 0){
 
-				 query_posts(array( 
+				 query_posts(array(
 			        'post_type' => 'project-elements',
 			        'showposts' => -1,
-			        'paged' => $paged, 
-			        'tax_query' => array( 
-				        array( 
+			        'paged' => $paged,
+			        'tax_query' => array(
+				        array(
 				            'taxonomy' => 'phonak-projects',
-				            'field' => 'id', 
-				            'terms' => array($term_id) 
-				        ) 
-				    ) 
-			    ) );  
+				            'field' => 'id',
+				            'terms' => array($term_id)
+				        )
+				    )
+			    ) );
 
 
 				if ( have_posts() ) :
@@ -243,13 +255,14 @@ function phonak_project(){
 
 
 					echo '<div class="project_elements">';
-					while ( have_posts() ) : the_post(); 
+					while ( have_posts() ) : the_post();
 				?>
 					<input type="hidden" name="section_project_elements" value="PROJECT ELEMENTS" />
 					<div>
 						<label>
+							<?php if(!empty($sku_code)) { echo '<p class="skualign">'; echo get_post_meta(get_the_ID(),'sku_code',true); echo '</p>'; } ?>
 							<?php echo the_post_thumbnail('thumbnail'); ?>
-							<input type="checkbox" name="project_element[]" value="<?php the_title(); ?>|<?php echo get_post_meta(get_the_ID(),'artwork_url',true); ?>"> 
+							<input type="checkbox" name="project_element[]" value="<?php the_title(); ?>|<?php echo get_post_meta(get_the_ID(),'artwork_url',true); ?>">
 
 							<span class="button"><?php the_title(); ?></span>
 
@@ -283,7 +296,7 @@ function phonak_project(){
 					</div>
 				</div>
 
-				<?php 
+				<?php
 				/**
 				**
 				** Newspaper Advertisement
@@ -315,13 +328,13 @@ function phonak_project(){
 				<?php } ?>
 
 
-				<?php 
+				<?php
 				/**
 				**
 				** Direct Mail
 				**
 				**/
-				echo 'term '.$term_meta['project_type']; 
+				echo 'term '.$term_meta['project_type'];
 				if($term_meta['project_type'] == 'Print marketing - Direct Mail'){ ?>
 				<div>
 				<input type="hidden" name="section_direct_mail_information" value="DIRECT MAIL INFORMATION" />
@@ -348,7 +361,7 @@ function phonak_project(){
 				</div>
 				<?php } ?>
 
-				<?php 
+				<?php
 				/**
 				**
 				** Newspaper Insert
@@ -380,7 +393,7 @@ function phonak_project(){
 				<?php } ?>
 
 
-				<?php 
+				<?php
 				/**
 				**
 				** Database marking
@@ -403,7 +416,7 @@ function phonak_project(){
 				<?php } ?>
 
 
-				<?php 
+				<?php
 				/**
 				**
 				** Digital marketing
@@ -478,7 +491,7 @@ add_shortcode('phonak_project','phonak_project');
 *
 *
 *
-*  POST TYPE / TAXONOMIES 
+*  POST TYPE / TAXONOMIES
 *
 *
 *
@@ -486,7 +499,7 @@ add_shortcode('phonak_project','phonak_project');
 *
 */
 
-//BUILD Project 
+//BUILD Project
 add_action( 'init', 'phonak_project_post_type' );
 function phonak_project_post_type() {
     register_post_type( 'project-elements',
@@ -525,7 +538,7 @@ function phonak_project_post_type() {
             'show_ui' => true,
             'show_tagcloud' => false,
             'hierarchical' => true,
-            'rewrite' => array( 'slug' => 'phonak-project', 'with_front' => false )
+            'rewrite' => array( 'slug' => 'request', 'with_front' => false )
         )
     );
 
@@ -547,6 +560,7 @@ function display_phonak_project_meta_box( $project ) {
     global $post;
     $artwork_url = esc_html( get_post_meta( $project->ID, 'artwork_url', true ) );
     $example_url = esc_html( get_post_meta( $project->ID, 'example_url', true ) );
+		$sku_code = esc_html( get_post_meta( $project->ID, 'sku_code', true ) );
     ?>
     <table style="width: 100%;">
         <tr>
@@ -561,6 +575,12 @@ function display_phonak_project_meta_box( $project ) {
         <tr>
             <td><input type="text" style="width: 100%" name="artwork_url" value="<?php echo $artwork_url; ?>" /></td>
         </tr>
+				<tr>
+						<td style="width: 100%">SKU Code</td>
+				</tr>
+				<tr>
+						<td><input type="text" style="width: 100%" name="sku_code" value="<?php echo $sku_code; ?>" /></td>
+				</tr>
         <input type="hidden" name="phonak_project_flag" value="true" />
     </table>
 <?php
@@ -582,6 +602,11 @@ function custom_fields_phonak_project_update($post_id, $post ){
             }else{
                 update_post_meta( $post_id, 'example_url', '');
             }
+						if ( isset( $_POST['sku_code'] ) && $_POST['sku_code'] != '' ) {
+								update_post_meta( $post_id, 'sku_code', $_POST['sku_code'] );
+						}else{
+								update_post_meta( $post_id, 'sku_code', '');
+						}
         }
     }
 }
@@ -604,15 +629,21 @@ function phonak_projects_taxonomy_add_new_meta_field() {
 	</div>
 	<div class="form-field">
 		<label for="term_meta[project_thumbnail]">Project Thumbnail</label>
-		<input type="text" name="term_meta[project_thumbnail]" value="">
+		<input type="text" name="term_meta[project_thumbnail]"  style="width: 100%" value="">
 	</div>
+	<tr class="form-field">
+	<th scope="row" valign="top"><label for="custom_url">Custom URL:</label></th>
+		<td>
+			<input type="text" name="custom_url" style="width: 100%" value="<?php echo $custom_url; ?>">
+		</td>
+	</tr>
 <?php
 }
 
 function phonak_projects_taxonomy_edit_new_meta_field($term) {
 	// this will add the custom meta field to the add new term page
 	$t_id = $term->term_id;
-	$term_meta = get_option( 'taxonomy_'.$t_id ); 
+	$term_meta = get_option( 'taxonomy_'.$t_id );
 	?>
 
 	<tr class="form-field">
@@ -632,7 +663,13 @@ function phonak_projects_taxonomy_edit_new_meta_field($term) {
 	<tr class="form-field">
 	<th scope="row" valign="top"><label for="term_meta[custom_term_meta]">Project Thumbnail</label></th>
 		<td>
-			<input type="text" name="term_meta[project_thumbnail]" value="<?php echo $term_meta['project_thumbnail']; ?>">
+			<input type="text" name="term_meta[project_thumbnail]" style="width: 100%" value="<?php echo $term_meta['project_thumbnail']; ?>">
+		</td>
+	</tr>
+	<tr class="form-field">
+	<th scope="row" valign="top"><label for="term_meta[custom_url]">Custom URL:</label></th>
+		<td>
+			<input type="text" name="term_meta[custom_url]" style="width: 100%" value="<?php echo $term_meta['custom_url']; ?>">
 		</td>
 	</tr>
 
@@ -646,16 +683,16 @@ add_action( 'phonak-projects_edit_form_fields', 'phonak_projects_taxonomy_edit_n
 function save_phonak_projects_custom_meta( $term_id ) {
 	if ( isset( $_POST['term_meta'] ) ) {
 		$t_id = $term_id;
-		
+
 
 		$term_meta = get_option( 'taxonomy_'.$t_id );
 		$term_meta['project_type'] = $_POST['term_meta']['project_type'];
 		$term_meta['project_thumbnail'] = $_POST['term_meta']['project_thumbnail'];
+		$term_meta['custom_url'] = $_POST['term_meta']['custom_url'];
 
-		
 		// Save the option array.
 		update_option( 'taxonomy_'.$t_id, $term_meta );
 	}
-}  
-add_action( 'edited_phonak-projects', 'save_phonak_projects_custom_meta', 10, 2 );  
+}
+add_action( 'edited_phonak-projects', 'save_phonak_projects_custom_meta', 10, 2 );
 add_action( 'create_phonak-projects', 'save_phonak_projects_custom_meta', 10, 2 );

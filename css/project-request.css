@@ -2,7 +2,16 @@
 	display: none;
 }
 
-
+.skualign{
+	position: absolute;
+	left: 33px;
+	background-color: rgba(0, 0, 0, 0.70);
+	color: white;
+	width: 150px;
+}
+/*.skualign:before{
+	content: 'SKU: ';
+}*/
 .project_list{
 	display: flex;
 	justify-content: center;
@@ -80,7 +89,7 @@
 .project_elements .view_example{
 	padding: 10px 0;
 	display: block;
-	
+
 }
 
 
