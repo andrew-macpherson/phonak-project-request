@@ -170,7 +170,7 @@ function phonak_project(){
 
 
 	if($success){
-		echo '<p style="color: #86bc24">Project successfully submitted.<p>';
+		echo '<p style="color:#86bc24; text-align:center; font-size:26px; margin: 100px 0;">Project successfully submitted.<p>';
 	}else{ ?>
 
 		<form class="project_request_form" method="post" action="#" enctype="multipart/form-data">
@@ -179,15 +179,16 @@ function phonak_project(){
 
 			<?php
 			// CHECK FOR CHILDREN
+			$taxonomy_name = 'phonak-projects';
+
 			$term_id = get_queried_object()->term_id;
-			$parent_term = get_term_by( 'id', term_id, $taxonomy_name );
+			$parent_term = get_term_by( 'term_id', $term_id, $taxonomy_name );
 			$term_meta = get_option( 'taxonomy_'.$term_id ); 
 
-			print_r($parent_term);
-			echo '<h2>'.$parent_term->term_name.'</h2>';
+			echo '<h2>'.$parent_term->name.'</h2>';
 
 
-			$taxonomy_name = 'phonak-projects';
+			
 			$term_children = get_term_children( $term_id, $taxonomy_name );
 
 			$term_children = get_terms( array( 
@@ -237,7 +238,7 @@ function phonak_project(){
 
 				if ( have_posts() ) :
 
-					echo '<h2>Campaign Elements</h2>';
+					echo '<h3>Campaign Elements</h3>';
 					echo '<p>Please select the campaign <strong>format</strong> you wish to order (you can choose more than one).</p>';
 
 
