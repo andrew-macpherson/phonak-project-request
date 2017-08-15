@@ -171,7 +171,10 @@ function phonak_project(){
 
 	if($success){
 		echo '<p style="color:#86bc24; text-align:center; font-size:26px; margin: 100px 0;">Project successfully submitted.<p>';
-	}else{ ?>
+	}else{
+	if ( get_cat_name( $category_id = 19 )): ?>
+		<img src="http://phonakmarketing.ca/site/wp-content/uploads/WebBanner_Audeo_B-Direct_1200pxX519px.jpg" width="100%" alt="Phonak Banner"/>
+	<?php endif; ?>
 
 		<form class="project_request_form" method="post" action="#" enctype="multipart/form-data">
 
@@ -247,8 +250,30 @@ function phonak_project(){
 				    )
 			    ) );
 
+					if ( have_posts() && $term_meta['project_type'] == 'Downloadable' ) : ?>
+						<?php
+						echo '<h3>Campaign Elements</h3>';
+						echo '<p>Please select the campaign <strong>format</strong> you wish to order (you can choose more than one).</p>';
+						echo '<div class="project_elements">';
+						while ( have_posts() ) : the_post();
+					?>
+						<input type="hidden" name="section_project_elements" value="PROJECT ELEMENTS" />
+						<div>
+							<label>
+								<?php if(!empty($sku_code)) { echo '<p class="skualign">'; echo get_post_meta(get_the_ID(),'sku_code',true); echo '</p>'; } ?>
+								<?php echo the_post_thumbnail('thumbnail'); ?>
 
-				if ( have_posts() ) :
+
+								<span class="button"><?php the_title(); ?></span>
+
+							</label>
+							<a class="view_example" target="_blank" href="<?php echo get_post_meta(get_the_ID(),'example_url',true); ?>">Download</a>
+						</div>
+					<?php
+						endwhile;
+						echo '</div>';
+					endif;
+				if ( have_posts() && $term_meta['project_type'] != 'Downloadable' ) :
 
 					echo '<h3>Campaign Elements</h3>';
 					echo '<p>Please select the campaign <strong>format</strong> you wish to order (you can choose more than one).</p>';
@@ -262,11 +287,15 @@ function phonak_project(){
 						<label>
 							<?php if(!empty($sku_code)) { echo '<p class="skualign">'; echo get_post_meta(get_the_ID(),'sku_code',true); echo '</p>'; } ?>
 							<?php echo the_post_thumbnail('thumbnail'); ?>
-							<input type="checkbox" name="project_element[]" value="<?php the_title(); ?>|<?php echo get_post_meta(get_the_ID(),'artwork_url',true); ?>">
+							<input type="checkbox" name="project_element[]" class="checkbox checkbox_class" value="<?php the_title(); ?>|<?php echo get_post_meta(get_the_ID(),'artwork_url',true); ?>">
 
 							<span class="button"><?php the_title(); ?></span>
 
 						</label>
+						<label class="tgl">
+					    <input type="checkbox" class="checkbox_class">
+					    <span data-on="Selected" data-off="Deselected"></span>
+					  </label>
 						<a class="view_example" target="_blank" href="<?php echo get_post_meta(get_the_ID(),'example_url',true); ?>">View Example</a>
 					</div>
 				<?php
@@ -274,7 +303,7 @@ function phonak_project(){
 					echo '</div>';
 				endif;
 				?>
-
+				<?php if ( have_posts() && $term_meta['project_type'] != 'Downloadable' ) : ?>
 				<input type="hidden" name="section_client_information" value="CLIENT INFORMATION" />
 				<div>
 					<h3>Clinic Information</h3>
@@ -295,7 +324,9 @@ function phonak_project(){
 						<input type="text" name="phone" value="<?php if(isset($_POST['phone'])){ echo $_POST['phone']; } ?>" />
 					</div>
 				</div>
-
+				<?php
+				endif;
+				?>
 				<?php
 				/**
 				**
@@ -326,8 +357,6 @@ function phonak_project(){
 					</div>
 				</div>
 				<?php } ?>
-
-
 				<?php
 				/**
 				**
@@ -391,8 +420,6 @@ function phonak_project(){
 					</div>
 				</div>
 				<?php } ?>
-
-
 				<?php
 				/**
 				**
@@ -414,8 +441,6 @@ function phonak_project(){
 					</div>
 				</div>
 				<?php } ?>
-
-
 				<?php
 				/**
 				**
@@ -433,7 +458,7 @@ function phonak_project(){
 				</div>
 				<?php } ?>
 
-
+				<?php if ( have_posts() && $term_meta['project_type'] != 'Downloadable' ) : ?>
 				<input type="hidden" name="section_clinic_information" value="CLINIC DETAILS" />
 				<div>
 					<h3>Clinic Content for Advertisement</h3>
@@ -470,21 +495,12 @@ function phonak_project(){
 
 
 				<input type="submit" name="submit">
-			<?php } ?>
+			<?php endif; } ?>
 		</form>
 	<?php
 	}
-
-
-
-
 }
-
 add_shortcode('phonak_project','phonak_project');
-
-
-
-
 /*
 *
 *
@@ -625,6 +641,7 @@ function phonak_projects_taxonomy_add_new_meta_field() {
 			<option>Database marking</option>
 			<option>Digital marketing</option>
 			<option>Events marketing</option>
+			<option>Downloadable</option>
 		</select>
 	</div>
 	<div class="form-field">
@@ -657,6 +674,7 @@ function phonak_projects_taxonomy_edit_new_meta_field($term) {
 				<option <?php if($term_meta['project_type'] == 'Database marking'){ echo 'SELECTED'; } ?>>Database marking</option>
 				<option <?php if($term_meta['project_type'] == 'Digital marketing'){ echo 'SELECTED'; } ?>>Digital marketing</option>
 				<option <?php if($term_meta['project_type'] == 'Events marketing'){ echo 'SELECTED'; } ?>>Events marketing</option>
+				<option <?php if($term_meta['project_type'] == 'Downloadable'){ echo 'SELECTED'; } ?>>Downloadable</option>
 			</select>
 		</td>
 	</tr>
@@ -696,3 +714,5 @@ function save_phonak_projects_custom_meta( $term_id ) {
 }
 add_action( 'edited_phonak-projects', 'save_phonak_projects_custom_meta', 10, 2 );
 add_action( 'create_phonak-projects', 'save_phonak_projects_custom_meta', 10, 2 );
+
+?>
