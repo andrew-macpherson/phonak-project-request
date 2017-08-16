@@ -173,7 +173,7 @@ function phonak_project(){
 		echo '<p style="color:#86bc24; text-align:center; font-size:26px; margin: 100px 0;">Project successfully submitted.<p>';
 	}else{
 	if ( get_cat_name( $category_id = 19 )): ?>
-		<img src="http://phonakmarketing.ca/site/wp-content/uploads/WebBanner_Audeo_B-Direct_1200pxX519px.jpg" width="100%" alt="Phonak Banner"/>
+		<img src="http://phonakmarketing.ca/site/wp-content/uploads/WebBanner_Audeo_B-Direct_1200pxX519px.jpg" width="100%" class="directbanner" alt="Phonak Banner"/>
 	<?php endif; ?>
 
 		<form class="project_request_form" method="post" action="#" enctype="multipart/form-data">

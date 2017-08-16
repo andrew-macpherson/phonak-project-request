@@ -1,6 +1,10 @@
 #main-content .container.noSidebar:before{
 	display: none;
 }
+.directbanner{
+	margin-top: -100px;
+	float: left;
+}
 .skualign {
   position: absolute;
   left: 33px;
