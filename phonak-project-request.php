@@ -287,13 +287,12 @@ function phonak_project(){
 						<label>
 							<?php if(!empty($sku_code)) { echo '<p class="skualign">'; echo get_post_meta(get_the_ID(),'sku_code',true); echo '</p>'; } ?>
 							<?php echo the_post_thumbnail('thumbnail'); ?>
-							<input type="checkbox" name="project_element[]" class="checkbox checkbox_class" value="<?php the_title(); ?>|<?php echo get_post_meta(get_the_ID(),'artwork_url',true); ?>">
 
 							<span class="button"><?php the_title(); ?></span>
 
 						</label>
 						<label class="tgl">
-					    <input type="checkbox" class="checkbox_class">
+					    <input type="checkbox" class="checkbox_class" name="project_element[]" value="<?php the_title(); ?>|<?php echo get_post_meta(get_the_ID(),'artwork_url',true); ?>">
 					    <span data-on="Selected" data-off="Deselected"></span>
 					  </label>
 						<a class="view_example" target="_blank" href="<?php echo get_post_meta(get_the_ID(),'example_url',true); ?>">View Example</a>
