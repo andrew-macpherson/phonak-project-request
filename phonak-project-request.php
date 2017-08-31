@@ -307,6 +307,21 @@ function phonak_project(){
 				<div>
 					<h3>Clinic Information</h3>
 					<div>
+						<label>Who is your Regional Sales Manager?</label>
+						<select name="regional_sales_manager" style="width: 100%">
+							<option>Aaron Lee</option>
+							<option>Brent Wildeman</option>
+							<option>Daryl Houghton</option>
+							<option>Jacques Erpelding</option>
+							<option>Janace Daley</option>
+							<option>Lara Livingston</option>
+							<option>Nadine Anis</option>
+							<option>Nicky Saldhana</option>
+							<option>Samantha McKendrick</option>
+							<option>Sarah Young</option>
+						</select>
+					</div>
+					<div>
 						<label>Contact Name</label>
 						<input type="text" name="contact_name" value="<?php if(isset($_POST['contact_name'])){ echo $_POST['contact_name']; } ?>" />
 					</div>
