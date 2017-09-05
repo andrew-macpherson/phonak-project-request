@@ -309,6 +309,7 @@ function phonak_project(){
 					<div>
 						<label>Who is your Regional Sales Manager?</label>
 						<select name="regional_sales_manager" style="width: 100%">
+							<option>Select your RSM</option>
 							<option>Aaron Lee</option>
 							<option>Brent Wildeman</option>
 							<option>Daryl Houghton</option>
