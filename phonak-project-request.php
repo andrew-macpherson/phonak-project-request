@@ -148,27 +148,27 @@ function phonak_project_request(){
 				<input type="hidden" name="section_clinic_details" value="CLINIC DETAILS" />
 				<div>
 					<label>Clinic Name</label>
-					<input type="text" name="clinic_name" value="<?php if(isset($_POST['clinic_name'])){ echo $_POST['clinic_name']; } ?>" />
+					<input type="text" name="clinic_name" value="<?php if(isset($_POST['clinic_name'])){ echo $_POST['clinic_name']; } ?>" required />
 				</div>
 				<div>
 					<label>Clinic Address</label>
-					<input type="text" name="clinic_address" value="<?php if(isset($_POST['clinic_address'])){ echo $_POST['clinic_address']; } ?>" />
+					<input type="text" name="clinic_address" value="<?php if(isset($_POST['clinic_address'])){ echo $_POST['clinic_address']; } ?>" required />
 				</div>
 				<div>
 					<label>Clinic Phone Number</label>
-					<input type="text" name="clinic_phone" value="<?php if(isset($_POST['clinic_phone'])){ echo $_POST['clinic_phone']; } ?>" />
+					<input type="text" name="clinic_phone" value="<?php if(isset($_POST['clinic_phone'])){ echo $_POST['clinic_phone']; } ?>" required />
 				</div>
 				<div>
 					<label>Clinic Website Address</label>
-					<input type="text" name="clinic_Website" value="<?php if(isset($_POST['clinic_Website'])){ echo $_POST['clinic_Website']; } ?>" />
+					<input type="text" name="clinic_Website" value="<?php if(isset($_POST['clinic_Website'])){ echo $_POST['clinic_Website']; } ?>" required />
 				</div>
 				<div>
 					<label>Clinic Contact Name and Email Address</label>
-					<input type="text" name="clinic_contact_name_and_email_address" value="<?php if(isset($_POST['clinic_contact_name_and_email_address'])){ echo $_POST['clinic_contact_name_and_email_address']; } ?>" />
+					<input type="text" name="clinic_contact_name_and_email_address" value="<?php if(isset($_POST['clinic_contact_name_and_email_address'])){ echo $_POST['clinic_contact_name_and_email_address']; } ?>" required />
 				</div>
 				<div>
 					<label>Regional Sales Manager?</label>
-					<select name="regional_sales_manager" style="width: 100%">
+					<select name="regional_sales_manager" style="width: 100%" required>
 						<option>Select your RSM</option>
 						<option>Aaron Lee</option>
 						<option>Brent Wildeman</option>
@@ -190,11 +190,11 @@ function phonak_project_request(){
 				<input type="hidden" name="section_project_setup" value="PROJECT SET UP" />
 				<div>
 					<label>Project Name</label>
-					<input type="text" name="project_name" value="<?php if(isset($_POST['project_name'])){ echo $_POST['project_name']; } ?>" />
+					<input type="text" name="project_name" value="<?php if(isset($_POST['project_name'])){ echo $_POST['project_name']; } ?>" required />
 				</div>
 				<div>
 					<label>Project Type</label>
-					<select name="project_type" style="width: 100%">
+					<select name="project_type" style="width: 100%" required>
 						<option>Advertisements (1-2 weeks)</option>
 						<option>Branding Package (2-3 weeks)</option>
 						<option>Database Marketing (2-3 weeks)</option>
@@ -210,7 +210,7 @@ function phonak_project_request(){
 				</div>
 				<div>
 					<label>Due Date</label>
-					<input type="date" name="due_date" value="<?php if(isset($_POST['due_date'])){ echo $_POST['due_date']; } ?>" />
+					<input type="date" name="due_date" value="<?php if(isset($_POST['due_date'])){ echo $_POST['due_date']; } ?>" required />
 				</div>
 			</div>
 			
@@ -220,27 +220,27 @@ function phonak_project_request(){
 				<input type="hidden" name="section_project_design_brief" value="PROJECT DESIGN BRIEF" />
 				<div>
 					<label>General Description of Project</label>
-					<input type="text" name="general_description_of_project" value="<?php if(isset($_POST['general_description_of_project'])){ echo $_POST['general_description_of_project']; } ?>" />
+					<input type="text" name="general_description_of_project" value="<?php if(isset($_POST['general_description_of_project'])){ echo $_POST['general_description_of_project']; } ?>" required />
 				</div>
 				<div>
 					<label>Headline</label>
-					<input type="text" name="headline" value="<?php if(isset($_POST['headline'])){ echo $_POST['headline']; } ?>" />
+					<input type="text" name="headline" value="<?php if(isset($_POST['headline'])){ echo $_POST['headline']; } ?>" required />
 				</div>
 				<div>
 					<label>Hook Line</label>
-					<input type="text" name="hook_line" value="<?php if(isset($_POST['hook_line'])){ echo $_POST['hook_line']; } ?>" />
+					<input type="text" name="hook_line" value="<?php if(isset($_POST['hook_line'])){ echo $_POST['hook_line']; } ?>" required />
 				</div>
 				<div>
 					<label>Call to Action</label>
-					<input type="text" name="call_to_action" value="<?php if(isset($_POST['call_to_action'])){ echo $_POST['call_to_action']; } ?>" />
+					<input type="text" name="call_to_action" value="<?php if(isset($_POST['call_to_action'])){ echo $_POST['call_to_action']; } ?>" required />
 				</div>
 				<div>
 					<label>Imagery Notes</label>
-					<input type="text" name="imagery_notes" value="<?php if(isset($_POST['imagery_notes'])){ echo $_POST['imagery_notes']; } ?>" />
+					<input type="text" name="imagery_notes" value="<?php if(isset($_POST['imagery_notes'])){ echo $_POST['imagery_notes']; } ?>" required />
 				</div>
 				<div>
 					<label>Dimensions (Width & Height)</label>
-					<input type="text" name="dimensions" value="<?php if(isset($_POST['dimensions'])){ echo $_POST['dimensions']; } ?>" />
+					<input type="text" name="dimensions" value="<?php if(isset($_POST['dimensions'])){ echo $_POST['dimensions']; } ?>" required />
 				</div>
 				<div>
 					<label>Description / Must-haves / Do-Not</label>
