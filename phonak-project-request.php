@@ -52,6 +52,213 @@ add_action( 'wp_enqueue_scripts', 'phonak_marketing_request_enqueue_script' );
 *
 */
 
+
+function convert_post_to_description(){
+	$description = '';
+
+	foreach($_POST as $key => $val){
+
+		if(strpos($key, 'section_') !== false){
+			$description .= '<br/><strong>'.$val.'</strong><br/>';
+		}else{
+			$description .= '<strong>'.ucwords(str_replace($replace, $replaceWith, $key)).': </strong>';
+			if(is_array($val)){
+				$artworkArray = array();
+				foreach($val as $subVal){
+					$parts = explode('|', $subVal);
+					$artworkArray[] = '<a href="'.$parts[1].'">'.$parts[0].'</a>';
+				}
+				$description .= implode(', ', $artworkArray).'<br/>';;
+
+			}else{
+				$description .= $val.'<br/>';
+			}
+		}
+	}
+
+	return $description;
+}
+
+
+function phonak_project_request(){
+	$success = false;
+	if(isset($_POST['submit'])){
+
+		// Filter out any post items we don't need. Example: submit
+		$filterOut = ['submit'];
+		foreach($filterOut as $out){
+			unset($_POST[$out]);
+		}
+
+		// define string replace array
+		$replace = ['_'];
+		$replaceWith = [' '];
+
+		$description = convert_post_to_description();
+
+
+		// Hit API
+		$username='phonakmarketingwebsite';
+		$password='Phonak1176!';
+		$apikey = 'V81L-YXDN-U7M5-QOJ9-PWFM3UN-US7044';
+		$URL='https://api.proworkflow.net/projectrequests?apikey='.$apikey;
+
+		$projectTitle = $_POST['clinic_name'].' | '.$_POST['project_type'];
+
+		$projectData = [
+			'title' 		=> $projectTitle,
+			'description' 	=> $description
+		];
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL,$URL);
+		curl_setopt($ch, CURLOPT_USERPWD, $username.":".$password);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $projectData);
+		$result = curl_exec($ch);
+
+		$status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
+		//echo '$status_code: '.$status_code.'<br/>';
+
+		if($status_code == 201){
+			$decodedResponse = json_decode($result);
+			$projectId = $decodedResponse->details[0]->id;
+			curl_close($ch);
+			$success = true;
+		}else{
+			print curl_error($ch);
+		}
+
+	}
+
+	?>
+
+
+	<?php 
+	if($success){
+		echo '<p style="color:#86bc24; text-align:center; font-size:26px; margin: 100px 0;">Project successfully submitted.<p>';
+	}else{
+	?>
+		<form class="project_request_form" method="post" action="#" enctype="multipart/form-data">
+
+			<div>
+				<h3>Clinic Details</h3>
+				<input type="hidden" name="section_clinic_details" value="CLINIC DETAILS" />
+				<div>
+					<label>Clinic Name</label>
+					<input type="text" name="clinic_name" value="<?php if(isset($_POST['clinic_name'])){ echo $_POST['clinic_name']; } ?>" />
+				</div>
+				<div>
+					<label>Clinic Address</label>
+					<input type="text" name="clinic_address" value="<?php if(isset($_POST['clinic_address'])){ echo $_POST['clinic_address']; } ?>" />
+				</div>
+				<div>
+					<label>Clinic Phone Number</label>
+					<input type="text" name="clinic_phone" value="<?php if(isset($_POST['clinic_phone'])){ echo $_POST['clinic_phone']; } ?>" />
+				</div>
+				<div>
+					<label>Clinic Website Address</label>
+					<input type="text" name="clinic_Website" value="<?php if(isset($_POST['clinic_Website'])){ echo $_POST['clinic_Website']; } ?>" />
+				</div>
+				<div>
+					<label>Clinic Contact Name and Email Address</label>
+					<input type="text" name="clinic_contact_name_and_email_address" value="<?php if(isset($_POST['clinic_contact_name_and_email_address'])){ echo $_POST['clinic_contact_name_and_email_address']; } ?>" />
+				</div>
+				<div>
+					<label>Regional Sales Manager?</label>
+					<select name="regional_sales_manager" style="width: 100%">
+						<option>Select your RSM</option>
+						<option>Aaron Lee</option>
+						<option>Brent Wildeman</option>
+						<option>Daryl Houghton</option>
+						<option>Jacques Erpelding</option>
+						<option>Janace Daley</option>
+						<option>Lara Livingston</option>
+						<option>Nadine Anis</option>
+						<option>Nicky Saldhana</option>
+						<option>Samantha McKendrick</option>
+						<option>Sarah Young</option>
+					</select>
+				</div>
+			</div>
+
+
+			<div>
+				<h3>Project Setup</h3>
+				<input type="hidden" name="section_project_setup" value="PROJECT SET UP" />
+				<div>
+					<label>Project Name</label>
+					<input type="text" name="project_name" value="<?php if(isset($_POST['project_name'])){ echo $_POST['project_name']; } ?>" />
+				</div>
+				<div>
+					<label>Project Type</label>
+					<select name="project_type" style="width: 100%">
+						<option>Advertisements (1-2 weeks)</option>
+						<option>Branding Package (2-3 weeks)</option>
+						<option>Database Marketing (2-3 weeks)</option>
+						<option>Direct Mail Marketing (2-3 weeks)</option>
+						<option>Physician Marketing Pieces (1-2 weeks)</option>
+						<option>Promotional Materials (1-3 weeks)</option>
+						<option>Refer-a-Friend Program (1-2 weeks)</option>
+						<option>Signage (1-3 Weeks)</option>
+						<option>Video marketing (1-2 Months)</option>
+						<option>Website Design (1-3 Months)</option>
+						<option>Other (1-3 Weeks)</option>
+					</select>
+				</div>
+				<div>
+					<label>Due Date</label>
+					<input type="date" name="due_date" value="<?php if(isset($_POST['due_date'])){ echo $_POST['due_date']; } ?>" />
+				</div>
+			</div>
+			
+
+			<div>
+				<h3>Project Design Brief</h3>
+				<input type="hidden" name="section_project_design_brief" value="PROJECT DESIGN BRIEF" />
+				<div>
+					<label>General Description of Project</label>
+					<input type="text" name="general_description_of_project" value="<?php if(isset($_POST['general_description_of_project'])){ echo $_POST['general_description_of_project']; } ?>" />
+				</div>
+				<div>
+					<label>Headline</label>
+					<input type="text" name="headline" value="<?php if(isset($_POST['headline'])){ echo $_POST['headline']; } ?>" />
+				</div>
+				<div>
+					<label>Hook Line</label>
+					<input type="text" name="hook_line" value="<?php if(isset($_POST['hook_line'])){ echo $_POST['hook_line']; } ?>" />
+				</div>
+				<div>
+					<label>Call to Action</label>
+					<input type="text" name="call_to_action" value="<?php if(isset($_POST['call_to_action'])){ echo $_POST['call_to_action']; } ?>" />
+				</div>
+				<div>
+					<label>Imagery Notes</label>
+					<input type="text" name="imagery_notes" value="<?php if(isset($_POST['imagery_notes'])){ echo $_POST['imagery_notes']; } ?>" />
+				</div>
+				<div>
+					<label>Dimensions (Width & Height)</label>
+					<input type="text" name="dimensions" value="<?php if(isset($_POST['dimensions'])){ echo $_POST['dimensions']; } ?>" />
+				</div>
+				<div>
+					<label>Description / Must-haves / Do-Not</label>
+					<textarea name="description"><?php if(isset($_POST['description'])){ echo $_POST['description']; } ?></textarea>
+				</div>
+
+			</div>
+
+			<input type="submit" name="submit">
+		</form>
+	<?php 
+	}
+	?>
+	<?php 
+}
+add_shortcode('phonak_project_request','phonak_project_request');
+
+
 function phonak_project(){
 	$success = false;
 	//PROCESS FORM DATA IF SUBBMITED
