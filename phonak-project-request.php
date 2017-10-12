@@ -56,6 +56,10 @@ add_action( 'wp_enqueue_scripts', 'phonak_marketing_request_enqueue_script' );
 function convert_post_to_description(){
 	$description = '';
 
+	// define string replace array
+		$replace = ['_'];
+		$replaceWith = [' '];
+
 	foreach($_POST as $key => $val){
 
 		if(strpos($key, 'section_') !== false){
@@ -71,7 +75,7 @@ function convert_post_to_description(){
 				$description .= implode(', ', $artworkArray).'<br/>';;
 
 			}else{
-				$description .= $val.'<br/>';
+				$description .= nl2br($val).'<br/>';
 			}
 		}
 	}
@@ -96,14 +100,13 @@ function phonak_project_request(){
 
 		$description = convert_post_to_description();
 
-
 		// Hit API
 		$username='phonakmarketingwebsite';
 		$password='Phonak1176!';
 		$apikey = 'V81L-YXDN-U7M5-QOJ9-PWFM3UN-US7044';
 		$URL='https://api.proworkflow.net/projectrequests?apikey='.$apikey;
 
-		$projectTitle = $_POST['clinic_name'].' | '.$_POST['project_type'];
+		$projectTitle = $_POST['project_name'];
 
 		$projectData = [
 			'title' 		=> $projectTitle,
@@ -224,10 +227,12 @@ function phonak_project_request(){
 				</div>
 				<div>
 					<label>Headline</label>
+					<span>i.e. Life, Uninterrupted. (Or ask us to come up with this)</span>
 					<input type="text" name="headline" value="<?php if(isset($_POST['headline'])){ echo $_POST['headline']; } ?>" required />
 				</div>
 				<div>
 					<label>Hook Line</label>
+					<span>i.e. Test Drive the World's First 24 Hour Lithium-Ion Rechargeable Hearing Aid (Or ask us to come up with this)</span>
 					<input type="text" name="hook_line" value="<?php if(isset($_POST['hook_line'])){ echo $_POST['hook_line']; } ?>" required />
 				</div>
 				<div>
@@ -236,7 +241,7 @@ function phonak_project_request(){
 				</div>
 				<div>
 					<label>Imagery Notes</label>
-					<input type="text" name="imagery_notes" value="<?php if(isset($_POST['imagery_notes'])){ echo $_POST['imagery_notes']; } ?>" required />
+					<textarea name="imagery_notes" required><?php if(isset($_POST['imagery_notes'])){ echo $_POST['imagery_notes']; } ?></textarea>
 				</div>
 				<div>
 					<label>Dimensions (Width & Height)</label>
@@ -251,6 +256,16 @@ function phonak_project_request(){
 
 			<input type="submit" name="submit">
 		</form>
+
+
+
+		<style>
+			textarea{
+				width: 100%;
+				height: 200px;
+			}
+		</style>
+
 	<?php 
 	}
 	?>
