@@ -649,7 +649,7 @@ function phonak_project(){
 						//echo '<input type="hidden" name="section_clinic_information" value="Advertisements & Direct Mail - Print Advertisements" />';
 
 						echo '<div class="tabs-wrapper">';
-							echo '<div class="tab tab-1">';
+							echo '<div class="tab tab-1 active">';
 									require_once(dirname(__FILE__) . '/forms/clinic-information.php');
 							echo '</div>';
 
@@ -666,12 +666,12 @@ function phonak_project(){
 							echo '</div>';
 
 							echo '<div class="controls">';
-								echo '<a href="#" class="prev">Previous</a>';
+								echo '<a href="#" class="prev inactive">Previous</a>';
 								echo '<a href="#" class="next">Next</a>';
 							echo '</div>';
 
 							echo '<div class="step-pagination">';
-								echo '<span class="step step-1"></span>';
+								echo '<span class="step step-1 active"></span>';
 								echo '<span class="step step-2"></span>';
 								echo '<span class="step step-3"></span>';
 								echo '<span class="step step-4"></span>';
@@ -682,7 +682,7 @@ function phonak_project(){
 					if ( $term_meta['project_type'] =='Advertisements & Direct Mail - Direct Mail' ){
 						//echo '<input type="hidden" name="section_clinic_information" value="Advertisements & Direct Mail - Direct Mail" />';
 						echo '<div class="tabs-wrapper">';
-							echo '<div class="tab tab-1">';
+							echo '<div class="tab tab-1 active">';
 								require_once(dirname(__FILE__) . '/forms/clinic-information.php');
 							echo '</div>';
 
@@ -707,12 +707,12 @@ function phonak_project(){
 							echo '</div>';
 
 							echo '<div class="controls">';
-								echo '<a href="#" class="prev">Previous</a>';
+								echo '<a href="#" class="prev inactive">Previous</a>';
 								echo '<a href="#" class="next">Next</a>';
 							echo '</div>';
 
 							echo '<div class="step-pagination">';
-								echo '<span class="step step-1"></span>';
+								echo '<span class="step step-1 active"></span>';
 								echo '<span class="step step-2"></span>';
 								echo '<span class="step step-3"></span>';
 								echo '<span class="step step-4"></span>';
@@ -731,7 +731,7 @@ function phonak_project(){
 					if ( $term_meta['project_type'] == 'Logo, Brochure & Stationary - Logo Design' ){
 						//echo '<input type="hidden" name="section_clinic_information" value="Logo, Brochure & Stationary - Logo Design" />';
 						echo '<div class="tabs-wrapper">';
-							echo '<div class="tab tab-1">';
+							echo '<div class="tab tab-1 active">';
 								require_once(dirname(__FILE__) . '/forms/clinic-information.php');
 							echo '</div>';
 
@@ -744,12 +744,12 @@ function phonak_project(){
 							echo '</div>';
 
 							echo '<div class="controls">';
-								echo '<a href="#" class="prev">Previous</a>';
+								echo '<a href="#" class="prev inactive">Previous</a>';
 								echo '<a href="#" class="next">Next</a>';
 							echo '</div>';
 
 							echo '<div class="step-pagination">';
-								echo '<span class="step step-1"></span>';
+								echo '<span class="step step-1 active"></span>';
 								echo '<span class="step step-2"></span>';
 								echo '<span class="step step-3"></span>';
 							echo '</div>';
@@ -759,7 +759,7 @@ function phonak_project(){
 					if ( $term_meta['project_type'] == 'Logo, Brochure & Stationary - Brochures' ){
 						//echo '<input type="hidden" name="section_clinic_information" value="Logo, Brochure & Stationary - Brochures" />';
 						echo '<div class="tabs-wrapper">';
-							echo '<div class="tab tab-1">';
+							echo '<div class="tab tab-1 active">';
 								require_once(dirname(__FILE__) . '/forms/clinic-information.php');
 							echo '</div>';
 
@@ -776,12 +776,12 @@ function phonak_project(){
 							echo '</div>';
 
 							echo '<div class="controls">';
-								echo '<a href="#" class="prev">Previous</a>';
+								echo '<a href="#" class="prev inactive">Previous</a>';
 								echo '<a href="#" class="next">Next</a>';
 							echo '</div>';
 
 							echo '<div class="step-pagination">';
-								echo '<span class="step step-1"></span>';
+								echo '<span class="step step-1 active"></span>';
 								echo '<span class="step step-2"></span>';
 								echo '<span class="step step-3"></span>';
 								echo '<span class="step step-4"></span>';
@@ -792,7 +792,7 @@ function phonak_project(){
 					if ( $term_meta['project_type'] =='Logo, Brochure & Stationary - Stationary' ){
 						//echo '<input type="hidden" name="section_clinic_information" value="Logo, Brochure & Stationary - Stationary" />';
 						echo '<div class="tabs-wrapper">';
-							echo '<div class="tab tab-1">';
+							echo '<div class="tab tab-1 active">';
 								require_once(dirname(__FILE__) . '/forms/clinic-information.php');
 							echo '</div>';
 
@@ -809,12 +809,12 @@ function phonak_project(){
 							echo '</div>';
 
 							echo '<div class="controls">';
-								echo '<a href="#" class="prev">Previous</a>';
+								echo '<a href="#" class="prev inactive">Previous</a>';
 								echo '<a href="#" class="next">Next</a>';
 							echo '</div>';
 
 							echo '<div class="step-pagination">';
-								echo '<span class="step step-1"></span>';
+								echo '<span class="step step-1 active"></span>';
 								echo '<span class="step step-2"></span>';
 								echo '<span class="step step-3"></span>';
 								echo '<span class="step step-4"></span>';
@@ -834,7 +834,7 @@ function phonak_project(){
 						//echo '<input type="hidden" name="section_clinic_information" value="Database Marketing - Newsletter" />';
 
 						echo '<div class="tabs-wrapper">';
-							echo '<div class="tab tab-1">';
+							echo '<div class="tab tab-1 active">';
 								require_once(dirname(__FILE__) . '/forms/clinic-information.php');
 							echo '</div>';
 
@@ -863,12 +863,12 @@ function phonak_project(){
 							echo '</div>';
 
 							echo '<div class="controls">';
-								echo '<a href="#" class="prev">Previous</a>';
+								echo '<a href="#" class="prev inactive">Previous</a>';
 								echo '<a href="#" class="next">Next</a>';
 							echo '</div>';
 
 							echo '<div class="step-pagination">';
-								echo '<span class="step step-1"></span>';
+								echo '<span class="step step-1 active"></span>';
 								echo '<span class="step step-2"></span>';
 								echo '<span class="step step-3"></span>';
 								echo '<span class="step step-4"></span>';
@@ -882,7 +882,7 @@ function phonak_project(){
 					if ( $term_meta['project_type'] == 'Database Marketing - Appointment Anniversary' ){
 						//echo '<input type="hidden" name="section_clinic_information" value="Database Marketing - Appointment Anniversary" />';
 						echo '<div class="tabs-wrapper">';
-							echo '<div class="tab tab-1">';
+							echo '<div class="tab tab-1 active">';
 								require_once(dirname(__FILE__) . '/forms/clinic-information.php');
 							echo '</div>';
 
@@ -911,12 +911,12 @@ function phonak_project(){
 							echo '</div>';
 
 							echo '<div class="controls">';
-								echo '<a href="#" class="prev">Previous</a>';
+								echo '<a href="#" class="prev inactive">Previous</a>';
 								echo '<a href="#" class="next">Next</a>';
 							echo '</div>';
 
 							echo '<div class="step-pagination">';
-								echo '<span class="step step-1"></span>';
+								echo '<span class="step step-1 active"></span>';
 								echo '<span class="step step-2"></span>';
 								echo '<span class="step step-3"></span>';
 								echo '<span class="step step-4"></span>';
@@ -930,7 +930,7 @@ function phonak_project(){
 					if ( $term_meta['project_type'] == 'Database Marketing - Greeting Cards' ){
 						//echo '<input type="hidden" name="section_clinic_information" value="Database Marketing - Greeting Cards" />';
 						echo '<div class="tabs-wrapper">';
-							echo '<div class="tab tab-1">';
+							echo '<div class="tab tab-1 active">';
 								require_once(dirname(__FILE__) . '/forms/clinic-information.php');
 							echo '</div>';
 
@@ -959,12 +959,12 @@ function phonak_project(){
 							echo '</div>';
 
 							echo '<div class="controls">';
-								echo '<a href="#" class="prev">Previous</a>';
+								echo '<a href="#" class="prev inactive">Previous</a>';
 								echo '<a href="#" class="next">Next</a>';
 							echo '</div>';
 
 							echo '<div class="step-pagination">';
-								echo '<span class="step step-1"></span>';
+								echo '<span class="step step-1 active"></span>';
 								echo '<span class="step step-2"></span>';
 								echo '<span class="step step-3"></span>';
 								echo '<span class="step step-4"></span>';
@@ -978,7 +978,7 @@ function phonak_project(){
 					if ( $term_meta['project_type'] == 'Database Marketing - Letter' ){
 						//echo '<input type="hidden" name="section_clinic_information" value="Database Marketing - Letter" />';
 						echo '<div class="tabs-wrapper">';
-							echo '<div class="tab tab-1">';
+							echo '<div class="tab tab-1 active">';
 								require_once(dirname(__FILE__) . '/forms/clinic-information.php');
 							echo '</div>';
 
@@ -1003,12 +1003,12 @@ function phonak_project(){
 							echo '</div>';
 
 							echo '<div class="controls">';
-								echo '<a href="#" class="prev">Previous</a>';
+								echo '<a href="#" class="prev inactive">Previous</a>';
 								echo '<a href="#" class="next">Next</a>';
 							echo '</div>';
 
 							echo '<div class="step-pagination">';
-								echo '<span class="step step-1"></span>';
+								echo '<span class="step step-1 active"></span>';
 								echo '<span class="step step-2"></span>';
 								echo '<span class="step step-3"></span>';
 								echo '<span class="step step-4"></span>';
@@ -1030,7 +1030,7 @@ function phonak_project(){
 					if ( $term_meta['project_type'] == 'Digital - Facebook Ad Campaign' ){
 						//echo '<input type="hidden" name="section_clinic_information" value="Digital - Facebook Ad Campaign" />';
 						echo '<div class="tabs-wrapper">';
-							echo '<div class="tab tab-1">';
+							echo '<div class="tab tab-1 active">';
 								require_once(dirname(__FILE__) . '/forms/clinic-information.php');
 							echo '</div>';
 
@@ -1047,12 +1047,12 @@ function phonak_project(){
 							echo '</div>';
 
 							echo '<div class="controls">';
-								echo '<a href="#" class="prev">Previous</a>';
+								echo '<a href="#" class="prev inactive">Previous</a>';
 								echo '<a href="#" class="next">Next</a>';
 							echo '</div>';
 
 							echo '<div class="step-pagination">';
-								echo '<span class="step step-1"></span>';
+								echo '<span class="step step-1 active"></span>';
 								echo '<span class="step step-2"></span>';
 								echo '<span class="step step-3"></span>';
 								echo '<span class="step step-4"></span>';
@@ -1063,7 +1063,7 @@ function phonak_project(){
 					if ( $term_meta['project_type'] == 'Digital - Email Marketing' ){
 						//echo '<input type="hidden" name="section_clinic_information" value="Digital - Email Marketing" />';
 						echo '<div class="tabs-wrapper">';
-							echo '<div class="tab tab-1">';
+							echo '<div class="tab tab-1 active">';
 								require_once(dirname(__FILE__) . '/forms/clinic-information.php');
 							echo '</div>';
 
@@ -1088,12 +1088,12 @@ function phonak_project(){
 							echo '</div>';
 
 							echo '<div class="controls">';
-								echo '<a href="#" class="prev">Previous</a>';
+								echo '<a href="#" class="prev inactive">Previous</a>';
 								echo '<a href="#" class="next">Next</a>';
 							echo '</div>';
 
 							echo '<div class="step-pagination">';
-								echo '<span class="step step-1"></span>';
+								echo '<span class="step step-1 active"></span>';
 								echo '<span class="step step-2"></span>';
 								echo '<span class="step step-3"></span>';
 								echo '<span class="step step-4"></span>';
@@ -1106,7 +1106,7 @@ function phonak_project(){
 					if ( $term_meta['project_type'] == 'Digital - Google Ad Words' ){
 						//echo '<input type="hidden" name="section_clinic_information" value="Digital - Google Ad Words" />';
 						echo '<div class="tabs-wrapper">';
-							echo '<div class="tab tab-1">';
+							echo '<div class="tab tab-1 active">';
 								require_once(dirname(__FILE__) . '/forms/clinic-information.php');
 							echo '</div>';
 
@@ -1119,12 +1119,12 @@ function phonak_project(){
 							echo '</div>';
 
 							echo '<div class="controls">';
-								echo '<a href="#" class="prev">Previous</a>';
+								echo '<a href="#" class="prev inactive">Previous</a>';
 								echo '<a href="#" class="next">Next</a>';
 							echo '</div>';
 
 							echo '<div class="step-pagination">';
-								echo '<span class="step step-1"></span>';
+								echo '<span class="step step-1 active"></span>';
 								echo '<span class="step step-2"></span>';
 								echo '<span class="step step-3"></span>';
 							echo '</div>';
@@ -1134,7 +1134,7 @@ function phonak_project(){
 					if ( $term_meta['project_type'] == 'Digital - Lead Nurturing Campaign' ){
 						//echo '<input type="hidden" name="section_clinic_information" value="Digital - Lead Nurturing Campaign" />';
 						echo '<div class="tabs-wrapper">';
-							echo '<div class="tab tab-1">';
+							echo '<div class="tab tab-1 active">';
 								require_once(dirname(__FILE__) . '/forms/clinic-information.php');
 							echo '</div>';
 
@@ -1147,12 +1147,12 @@ function phonak_project(){
 							echo '</div>';
 
 							echo '<div class="controls">';
-								echo '<a href="#" class="prev">Previous</a>';
+								echo '<a href="#" class="prev inactive">Previous</a>';
 								echo '<a href="#" class="next">Next</a>';
 							echo '</div>';
 
 							echo '<div class="step-pagination">';
-								echo '<span class="step step-1"></span>';
+								echo '<span class="step step-1 active"></span>';
 								echo '<span class="step step-2"></span>';
 								echo '<span class="step step-3"></span>';
 							echo '</div>';

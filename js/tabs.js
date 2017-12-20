@@ -1,7 +1,4 @@
-var tab = 0;
-jQuery(window).load(function() {
-    updateTab(1);
-});
+var tab = 1;
 jQuery(document).on('click','.tabs-wrapper .next',function(e) {
     e.preventDefault();
     updateTab(1);
