@@ -194,3 +194,68 @@
 .project_request_form > div > div > input[type="date"]{
 	width: 100%;
 }
+.project_request_form input[type="submit"] {
+    padding: 10px 15px;
+    border: none;
+    background: #86bc23;
+    color: #fff;
+    margin-bottom: 20px;
+}
+.project_request_form input[type="submit"].inactive {
+    display: none;
+}
+
+.tabs-wrapper .tab {
+    display: none;
+}
+.tabs-wrapper .tab.active {
+    display: block;
+}
+.tabs-wrapper input[type="text"],
+.tabs-wrapper input[type="email"],
+.tabs-wrapper input[type="date"],
+.tabs-wrapper textarea {
+    width: 100%;
+}
+.tabs-wrapper .controls a {
+    padding: 10px 15px;
+    margin: 5px;
+    background: #86bc23;
+    color: #fff;
+}
+.tabs-wrapper .controls a.prev {
+    margin-left: 0;
+}
+.tabs-wrapper .controls a.next {
+    margin-right: 0;
+}
+.tabs-wrapper .controls a.prev.inactive,.tabs-wrapper .controls a.next.inactive {
+    background: #ccc;
+}
+.prev.inactive:hover,.next.inactive:hover {
+    cursor: default;
+}
+.tabs-wrapper .step-pagination {
+    text-align: center;
+}
+.tabs-wrapper .step {
+    margin: 0 2px;
+    width: 25px;
+    height: 25px;
+    border-radius: 25px;
+    background: #ccc;
+    display: inline-block;
+}
+.tabs-wrapper .step.active {
+    background: #86bc23;
+}
+a.redirect {
+    padding: 10px 15px;
+    margin: 10px 0 0;
+    background: #86bc23;
+    color: #fff;
+    display: inline-block;
+}
+a.redirect:hover {
+    background: #ccc;
+}

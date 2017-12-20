@@ -139,7 +139,7 @@ function phonak_project_request(){
 	?>
 
 
-	<?php 
+	<?php
 	if($success){
 		echo '<p style="color:#86bc24; text-align:center; font-size:26px; margin: 100px 0;">Project successfully submitted.<p>';
 	}else{
@@ -216,7 +216,7 @@ function phonak_project_request(){
 					<input type="date" name="due_date" value="<?php if(isset($_POST['due_date'])){ echo $_POST['due_date']; } ?>" required />
 				</div>
 			</div>
-			
+
 
 			<div>
 				<h3>Project Design Brief</h3>
@@ -266,13 +266,32 @@ function phonak_project_request(){
 			}
 		</style>
 
-	<?php 
+	<?php
 	}
 	?>
-	<?php 
+	<?php
 }
 add_shortcode('phonak_project_request','phonak_project_request');
 
+function phonak_project_request_2() {
+	echo '<script src="'.plugins_url('js/project-request.js',__FILE__).'"></script>';
+	?>
+	<div>
+		<div>
+			<select name="destination">
+				<option value="http://phonakmarketing.ca/request/advertisements-direct-mail/">Advertisements & Direct Mail</option>
+				<option value="http://phonakmarketing.ca/request/database-marketing-2/">Database Marketing</option>
+				<option value="http://phonakmarketing.ca/request/digital/">Digital</option>
+				<option value="http://phonakmarketing.ca/request/logo-brochure-stationary/">Logo, Brochure & Stationery</option>
+			</select>
+		</div>
+		<div>
+			<a href="#" class="redirect">GET STARTED</a>
+		</div>
+	</div>
+	<?php
+}
+add_shortcode('phonak_project_request_2','phonak_project_request_2');
 
 function phonak_project(){
 	$success = false;
@@ -397,7 +416,7 @@ function phonak_project(){
 		/*
 		if ( get_cat_name( $category_id = 19 )): ?>
 		<img src="http://phonakmarketing.ca/site/wp-content/uploads/WebBanner_Audeo_B-Direct_1200pxX519px.jpg" width="100%" class="directbanner" alt="Phonak Banner"/>
-	<?php endif; 
+	<?php endif;
 	*/
 	?>
 
@@ -490,19 +509,19 @@ function phonak_project(){
 					echo '<h3>Campaign Elements</h3>';
 					echo '<p>Please select the campaign <strong>format</strong> you wish to order (you can choose more than one).</p>';
 					echo '<div class="project_elements">';
-					while ( have_posts() ){ 
+					while ( have_posts() ){
 						the_post();
 					?>
 						<input type="hidden" name="section_project_elements" value="PROJECT ELEMENTS" />
 						<div>
 							<label>
-								<?php 
-								if(!empty($sku_code)) { 
-									echo '<p class="skualign">'; 
-									echo get_post_meta(get_the_ID(),'sku_code',true); echo '</p>'; 
-								} 
-								
-								echo the_post_thumbnail('thumbnail'); 
+								<?php
+								if(!empty($sku_code)) {
+									echo '<p class="skualign">';
+									echo get_post_meta(get_the_ID(),'sku_code',true); echo '</p>';
+								}
+
+								echo the_post_thumbnail('thumbnail');
 								?>
 
 								<span class="button"><?php the_title(); ?></span>
@@ -522,7 +541,7 @@ function phonak_project(){
 				**
 				** IF NO CHILDREN RENDER PROJECT ELEMENTS NON DOWNLOADABLE
 				**
-				**/	
+				**/
 				if ( have_posts() && $term_meta['project_type'] != 'Downloadable' ){
 					echo '<h3>Campaign Elements</h3>';
 					echo '<p>Please select the campaign <strong>format</strong> you wish to order (you can choose more than one).</p>';
@@ -591,22 +610,22 @@ function phonak_project(){
 					/**
 					** Newspaper Insert
 					**/
-					if($term_meta['project_type'] == 'Audéo B-R - Print marketing - Newspaper Insert'){ 
-						require_once(dirname(__FILE__) . '/forms/AudeoB-R/printmarketing-newspaper-insert.php');	
-					} 
+					if($term_meta['project_type'] == 'Audéo B-R - Print marketing - Newspaper Insert'){
+						require_once(dirname(__FILE__) . '/forms/AudeoB-R/printmarketing-newspaper-insert.php');
+					}
 
 					/**
 					** Database marking
 					**/
-					if($term_meta['project_type'] == 'Audéo B-R - Database marking'){ 
-						require_once(dirname(__FILE__) . '/forms/AudeoB-R/database-marking.php');	
+					if($term_meta['project_type'] == 'Audéo B-R - Database marking'){
+						require_once(dirname(__FILE__) . '/forms/AudeoB-R/database-marking.php');
 					}
 
 					/**
 					** Digital marketing
 					**/
 
-					if($term_meta['project_type'] == 'Audéo B-R - Digital marketing'){ 
+					if($term_meta['project_type'] == 'Audéo B-R - Digital marketing'){
 						require_once(dirname(__FILE__) . '/forms/AudeoB-R/digital-marketing.php');
 					}
 
@@ -625,60 +644,185 @@ function phonak_project(){
 					* Advertisements and direct mail
 					*
 					*/
-					
+					echo '<script src="'.plugins_url('js/tabs.js',__FILE__).'"></script>';
 					if ( $term_meta['project_type'] == 'Advertisements & Direct Mail - Print Advertisements'){
 						//echo '<input type="hidden" name="section_clinic_information" value="Advertisements & Direct Mail - Print Advertisements" />';
-						require_once(dirname(__FILE__) . '/forms/clinic-information.php');
 
-						require_once(dirname(__FILE__) . '/forms/Advertisements-&-Direct-Mail/type-of-ad.php');
-						require_once(dirname(__FILE__) . '/forms/project-set-up.php');
-						require_once(dirname(__FILE__) . '/forms/Advertisements-&-Direct-Mail/brief.php');
+						echo '<div class="tabs-wrapper">';
+							echo '<div class="tab tab-1">';
+									require_once(dirname(__FILE__) . '/forms/clinic-information.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-2">';
+									require_once(dirname(__FILE__) . '/forms/Advertisements-&-Direct-Mail/type-of-ad.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-3">';
+									require_once(dirname(__FILE__) . '/forms/project-set-up.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-4">';
+									require_once(dirname(__FILE__) . '/forms/Advertisements-&-Direct-Mail/brief.php');
+							echo '</div>';
+
+							echo '<div class="controls">';
+								echo '<a href="#" class="prev">Previous</a>';
+								echo '<a href="#" class="next">Next</a>';
+							echo '</div>';
+
+							echo '<div class="step-pagination">';
+								echo '<span class="step step-1"></span>';
+								echo '<span class="step step-2"></span>';
+								echo '<span class="step step-3"></span>';
+								echo '<span class="step step-4"></span>';
+							echo '</div>';
+						echo '</div>';
 					}
 
 					if ( $term_meta['project_type'] =='Advertisements & Direct Mail - Direct Mail' ){
 						//echo '<input type="hidden" name="section_clinic_information" value="Advertisements & Direct Mail - Direct Mail" />';
-						require_once(dirname(__FILE__) . '/forms/clinic-information.php');
-						require_once(dirname(__FILE__) . '/forms/project-set-up.php');
+						echo '<div class="tabs-wrapper">';
+							echo '<div class="tab tab-1">';
+								require_once(dirname(__FILE__) . '/forms/clinic-information.php');
+							echo '</div>';
 
-						require_once(dirname(__FILE__) . '/forms/Advertisements-&-Direct-Mail/type-of-project.php');
-						require_once(dirname(__FILE__) . '/forms/Advertisements-&-Direct-Mail/postage-type.php');
-						require_once(dirname(__FILE__) . '/forms/Advertisements-&-Direct-Mail/postage-type-demographics.php');
-						require_once(dirname(__FILE__) . '/forms/Advertisements-&-Direct-Mail/brief.php');
+							echo '<div class="tab tab-2">';
+								require_once(dirname(__FILE__) . '/forms/project-set-up.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-3">';
+								require_once(dirname(__FILE__) . '/forms/Advertisements-&-Direct-Mail/type-of-project.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-4">';
+								require_once(dirname(__FILE__) . '/forms/Advertisements-&-Direct-Mail/postage-type.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-5">';
+								require_once(dirname(__FILE__) . '/forms/Advertisements-&-Direct-Mail/postage-type-demographics.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-6">';
+								require_once(dirname(__FILE__) . '/forms/Advertisements-&-Direct-Mail/brief.php');
+							echo '</div>';
+
+							echo '<div class="controls">';
+								echo '<a href="#" class="prev">Previous</a>';
+								echo '<a href="#" class="next">Next</a>';
+							echo '</div>';
+
+							echo '<div class="step-pagination">';
+								echo '<span class="step step-1"></span>';
+								echo '<span class="step step-2"></span>';
+								echo '<span class="step step-3"></span>';
+								echo '<span class="step step-4"></span>';
+								echo '<span class="step step-5"></span>';
+								echo '<span class="step step-6"></span>';
+							echo '</div>';
+						echo '</div>';
 					}
 
 					/**
 					*
-					* Logo Brochure & Stationary 
+					* Logo Brochure & Stationary
 					*
 					*/
 
 					if ( $term_meta['project_type'] == 'Logo, Brochure & Stationary - Logo Design' ){
 						//echo '<input type="hidden" name="section_clinic_information" value="Logo, Brochure & Stationary - Logo Design" />';
-						require_once(dirname(__FILE__) . '/forms/clinic-information.php');
-						require_once(dirname(__FILE__) . '/forms/project-set-up.php');
+						echo '<div class="tabs-wrapper">';
+							echo '<div class="tab tab-1">';
+								require_once(dirname(__FILE__) . '/forms/clinic-information.php');
+							echo '</div>';
 
-						require_once(dirname(__FILE__) . '/forms/Logo-Brochure-Stationary/logo-design/brief.php');
+							echo '<div class="tab tab-2">';
+								require_once(dirname(__FILE__) . '/forms/project-set-up.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-3">';
+								require_once(dirname(__FILE__) . '/forms/Logo-Brochure-Stationary/logo-design/brief.php');
+							echo '</div>';
+
+							echo '<div class="controls">';
+								echo '<a href="#" class="prev">Previous</a>';
+								echo '<a href="#" class="next">Next</a>';
+							echo '</div>';
+
+							echo '<div class="step-pagination">';
+								echo '<span class="step step-1"></span>';
+								echo '<span class="step step-2"></span>';
+								echo '<span class="step step-3"></span>';
+							echo '</div>';
+						echo '</div>';
 					}
 
 					if ( $term_meta['project_type'] == 'Logo, Brochure & Stationary - Brochures' ){
 						//echo '<input type="hidden" name="section_clinic_information" value="Logo, Brochure & Stationary - Brochures" />';
-						require_once(dirname(__FILE__) . '/forms/clinic-information.php');
-						require_once(dirname(__FILE__) . '/forms/project-set-up.php');
+						echo '<div class="tabs-wrapper">';
+							echo '<div class="tab tab-1">';
+								require_once(dirname(__FILE__) . '/forms/clinic-information.php');
+							echo '</div>';
 
-						require_once(dirname(__FILE__) . '/forms/Logo-Brochure-Stationary/template.php');
-						require_once(dirname(__FILE__) . '/forms/Logo-Brochure-Stationary/brochures/brief.php');
+							echo '<div class="tab tab-2">';
+								require_once(dirname(__FILE__) . '/forms/project-set-up.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-3">';
+								require_once(dirname(__FILE__) . '/forms/Logo-Brochure-Stationary/template.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-4">';
+								require_once(dirname(__FILE__) . '/forms/Logo-Brochure-Stationary/brochures/brief.php');
+							echo '</div>';
+
+							echo '<div class="controls">';
+								echo '<a href="#" class="prev">Previous</a>';
+								echo '<a href="#" class="next">Next</a>';
+							echo '</div>';
+
+							echo '<div class="step-pagination">';
+								echo '<span class="step step-1"></span>';
+								echo '<span class="step step-2"></span>';
+								echo '<span class="step step-3"></span>';
+								echo '<span class="step step-4"></span>';
+							echo '</div>';
+						echo '</div>';
 					}
 
 					if ( $term_meta['project_type'] =='Logo, Brochure & Stationary - Stationary' ){
 						//echo '<input type="hidden" name="section_clinic_information" value="Logo, Brochure & Stationary - Stationary" />';
-						require_once(dirname(__FILE__) . '/forms/clinic-information.php');
-						require_once(dirname(__FILE__) . '/forms/project-set-up.php');
+						echo '<div class="tabs-wrapper">';
+							echo '<div class="tab tab-1">';
+								require_once(dirname(__FILE__) . '/forms/clinic-information.php');
+							echo '</div>';
 
-						require_once(dirname(__FILE__) . '/forms/Logo-Brochure-Stationary/type.php');
-						require_once(dirname(__FILE__) . '/forms/Logo-Brochure-Stationary/stationary/brief.php');
+							echo '<div class="tab tab-2">';
+								require_once(dirname(__FILE__) . '/forms/project-set-up.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-3">';
+								require_once(dirname(__FILE__) . '/forms/Logo-Brochure-Stationary/type.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-4">';
+								require_once(dirname(__FILE__) . '/forms/Logo-Brochure-Stationary/stationary/brief.php');
+							echo '</div>';
+
+							echo '<div class="controls">';
+								echo '<a href="#" class="prev">Previous</a>';
+								echo '<a href="#" class="next">Next</a>';
+							echo '</div>';
+
+							echo '<div class="step-pagination">';
+								echo '<span class="step step-1"></span>';
+								echo '<span class="step step-2"></span>';
+								echo '<span class="step step-3"></span>';
+								echo '<span class="step step-4"></span>';
+							echo '</div>';
+						echo '</div>';
 					}
 
-					
+
 
 					/**
 					*
@@ -688,53 +832,193 @@ function phonak_project(){
 
 					if ( $term_meta['project_type'] == 'Database Marketing - Newsletter' ){
 						//echo '<input type="hidden" name="section_clinic_information" value="Database Marketing - Newsletter" />';
-						require_once(dirname(__FILE__) . '/forms/clinic-information.php');
-						require_once(dirname(__FILE__) . '/forms/project-set-up.php');
 
-						require_once(dirname(__FILE__) . '/forms/Database-Marketing/type.php');
-						require_once(dirname(__FILE__) . '/forms/Database-Marketing/template.php');
+						echo '<div class="tabs-wrapper">';
+							echo '<div class="tab tab-1">';
+								require_once(dirname(__FILE__) . '/forms/clinic-information.php');
+							echo '</div>';
 
-						require_once(dirname(__FILE__) . '/forms/Database-Marketing/newsletter/brief.php');
-						require_once(dirname(__FILE__) . '/forms/Database-Marketing/delivery-options.php');
-						require_once(dirname(__FILE__) . '/forms/Database-Marketing/contact-list.php');
+							echo '<div class="tab tab-2">';
+								require_once(dirname(__FILE__) . '/forms/project-set-up.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-3">';
+								require_once(dirname(__FILE__) . '/forms/Database-Marketing/type.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-4">';
+								require_once(dirname(__FILE__) . '/forms/Database-Marketing/template.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-5">';
+								require_once(dirname(__FILE__) . '/forms/Database-Marketing/newsletter/brief.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-6">';
+								require_once(dirname(__FILE__) . '/forms/Database-Marketing/delivery-options.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-7">';
+								require_once(dirname(__FILE__) . '/forms/Database-Marketing/contact-list.php');
+							echo '</div>';
+
+							echo '<div class="controls">';
+								echo '<a href="#" class="prev">Previous</a>';
+								echo '<a href="#" class="next">Next</a>';
+							echo '</div>';
+
+							echo '<div class="step-pagination">';
+								echo '<span class="step step-1"></span>';
+								echo '<span class="step step-2"></span>';
+								echo '<span class="step step-3"></span>';
+								echo '<span class="step step-4"></span>';
+								echo '<span class="step step-5"></span>';
+								echo '<span class="step step-6"></span>';
+								echo '<span class="step step-7"></span>';
+							echo '</div>';
+						echo '</div>';
 					}
 
 					if ( $term_meta['project_type'] == 'Database Marketing - Appointment Anniversary' ){
 						//echo '<input type="hidden" name="section_clinic_information" value="Database Marketing - Appointment Anniversary" />';
-						require_once(dirname(__FILE__) . '/forms/clinic-information.php');
-						require_once(dirname(__FILE__) . '/forms/project-set-up.php');
+						echo '<div class="tabs-wrapper">';
+							echo '<div class="tab tab-1">';
+								require_once(dirname(__FILE__) . '/forms/clinic-information.php');
+							echo '</div>';
 
-						require_once(dirname(__FILE__) . '/forms/Database-Marketing/type.php');
-						require_once(dirname(__FILE__) . '/forms/Database-Marketing/template.php');
-						require_once(dirname(__FILE__) . '/forms/Database-Marketing/appointment-anniversary/brief.php');
-						require_once(dirname(__FILE__) . '/forms/Database-Marketing/delivery-options.php');
-						require_once(dirname(__FILE__) . '/forms/Database-Marketing/contact-list.php');
+							echo '<div class="tab tab-2">';
+								require_once(dirname(__FILE__) . '/forms/project-set-up.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-3">';
+								require_once(dirname(__FILE__) . '/forms/Database-Marketing/type.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-4">';
+								require_once(dirname(__FILE__) . '/forms/Database-Marketing/template.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-5">';
+								require_once(dirname(__FILE__) . '/forms/Database-Marketing/appointment-anniversary/brief.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-6">';
+								require_once(dirname(__FILE__) . '/forms/Database-Marketing/delivery-options.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-7">';
+								require_once(dirname(__FILE__) . '/forms/Database-Marketing/contact-list.php');
+							echo '</div>';
+
+							echo '<div class="controls">';
+								echo '<a href="#" class="prev">Previous</a>';
+								echo '<a href="#" class="next">Next</a>';
+							echo '</div>';
+
+							echo '<div class="step-pagination">';
+								echo '<span class="step step-1"></span>';
+								echo '<span class="step step-2"></span>';
+								echo '<span class="step step-3"></span>';
+								echo '<span class="step step-4"></span>';
+								echo '<span class="step step-5"></span>';
+								echo '<span class="step step-6"></span>';
+								echo '<span class="step step-7"></span>';
+							echo '</div>';
+						echo '</div>';
 					}
 
 					if ( $term_meta['project_type'] == 'Database Marketing - Greeting Cards' ){
 						//echo '<input type="hidden" name="section_clinic_information" value="Database Marketing - Greeting Cards" />';
-						require_once(dirname(__FILE__) . '/forms/clinic-information.php');
-						require_once(dirname(__FILE__) . '/forms/project-set-up.php');
+						echo '<div class="tabs-wrapper">';
+							echo '<div class="tab tab-1">';
+								require_once(dirname(__FILE__) . '/forms/clinic-information.php');
+							echo '</div>';
 
-						require_once(dirname(__FILE__) . '/forms/Database-Marketing/type.php');
-						require_once(dirname(__FILE__) . '/forms/Database-Marketing/occasion.php');
-						require_once(dirname(__FILE__) . '/forms/Database-Marketing/template.php');
-						require_once(dirname(__FILE__) . '/forms/Database-Marketing/greeting-cards/brief.php');
-						require_once(dirname(__FILE__) . '/forms/Database-Marketing/contact-list.php');
+							echo '<div class="tab tab-2">';
+								require_once(dirname(__FILE__) . '/forms/project-set-up.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-3">';
+								require_once(dirname(__FILE__) . '/forms/Database-Marketing/type.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-4">';
+								require_once(dirname(__FILE__) . '/forms/Database-Marketing/occasion.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-5">';
+								require_once(dirname(__FILE__) . '/forms/Database-Marketing/template.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-6">';
+								require_once(dirname(__FILE__) . '/forms/Database-Marketing/greeting-cards/brief.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-7">';
+								require_once(dirname(__FILE__) . '/forms/Database-Marketing/contact-list.php');
+							echo '</div>';
+
+							echo '<div class="controls">';
+								echo '<a href="#" class="prev">Previous</a>';
+								echo '<a href="#" class="next">Next</a>';
+							echo '</div>';
+
+							echo '<div class="step-pagination">';
+								echo '<span class="step step-1"></span>';
+								echo '<span class="step step-2"></span>';
+								echo '<span class="step step-3"></span>';
+								echo '<span class="step step-4"></span>';
+								echo '<span class="step step-5"></span>';
+								echo '<span class="step step-6"></span>';
+								echo '<span class="step step-7"></span>';
+							echo '</div>';
+						echo '</div>';
 					}
 
 					if ( $term_meta['project_type'] == 'Database Marketing - Letter' ){
 						//echo '<input type="hidden" name="section_clinic_information" value="Database Marketing - Letter" />';
-						require_once(dirname(__FILE__) . '/forms/clinic-information.php');
-						require_once(dirname(__FILE__) . '/forms/project-set-up.php');
+						echo '<div class="tabs-wrapper">';
+							echo '<div class="tab tab-1">';
+								require_once(dirname(__FILE__) . '/forms/clinic-information.php');
+							echo '</div>';
 
-						require_once(dirname(__FILE__) . '/forms/Database-Marketing/type.php');
-						require_once(dirname(__FILE__) . '/forms/Database-Marketing/letter/brief.php');
-						require_once(dirname(__FILE__) . '/forms/Database-Marketing/delivery-options.php');
-						require_once(dirname(__FILE__) . '/forms/Database-Marketing/contact-list.php');
+							echo '<div class="tab tab-2">';
+								require_once(dirname(__FILE__) . '/forms/project-set-up.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-3">';
+								require_once(dirname(__FILE__) . '/forms/Database-Marketing/type.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-4">';
+								require_once(dirname(__FILE__) . '/forms/Database-Marketing/letter/brief.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-5">';
+								require_once(dirname(__FILE__) . '/forms/Database-Marketing/delivery-options.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-6">';
+								require_once(dirname(__FILE__) . '/forms/Database-Marketing/contact-list.php');
+							echo '</div>';
+
+							echo '<div class="controls">';
+								echo '<a href="#" class="prev">Previous</a>';
+								echo '<a href="#" class="next">Next</a>';
+							echo '</div>';
+
+							echo '<div class="step-pagination">';
+								echo '<span class="step step-1"></span>';
+								echo '<span class="step step-2"></span>';
+								echo '<span class="step step-3"></span>';
+								echo '<span class="step step-4"></span>';
+								echo '<span class="step step-5"></span>';
+								echo '<span class="step step-6"></span>';
+							echo '</div>';
+						echo '</div>';
 					}
 
-					
+
 
 
 					/**
@@ -745,43 +1029,139 @@ function phonak_project(){
 
 					if ( $term_meta['project_type'] == 'Digital - Facebook Ad Campaign' ){
 						//echo '<input type="hidden" name="section_clinic_information" value="Digital - Facebook Ad Campaign" />';
-						require_once(dirname(__FILE__) . '/forms/clinic-information.php');
-						require_once(dirname(__FILE__) . '/forms/project-set-up.php');
+						echo '<div class="tabs-wrapper">';
+							echo '<div class="tab tab-1">';
+								require_once(dirname(__FILE__) . '/forms/clinic-information.php');
+							echo '</div>';
 
-						require_once(dirname(__FILE__) . '/forms/digital/objective.php');
-						require_once(dirname(__FILE__) . '/forms/digital/facebook-ad-campaign/brief.php');
+							echo '<div class="tab tab-2">';
+								require_once(dirname(__FILE__) . '/forms/project-set-up.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-3">';
+								require_once(dirname(__FILE__) . '/forms/digital/objective.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-4">';
+								require_once(dirname(__FILE__) . '/forms/digital/facebook-ad-campaign/brief.php');
+							echo '</div>';
+
+							echo '<div class="controls">';
+								echo '<a href="#" class="prev">Previous</a>';
+								echo '<a href="#" class="next">Next</a>';
+							echo '</div>';
+
+							echo '<div class="step-pagination">';
+								echo '<span class="step step-1"></span>';
+								echo '<span class="step step-2"></span>';
+								echo '<span class="step step-3"></span>';
+								echo '<span class="step step-4"></span>';
+							echo '</div>';
+						echo '</div>';
 					}
 
 					if ( $term_meta['project_type'] == 'Digital - Email Marketing' ){
 						//echo '<input type="hidden" name="section_clinic_information" value="Digital - Email Marketing" />';
-						require_once(dirname(__FILE__) . '/forms/clinic-information.php');
-						require_once(dirname(__FILE__) . '/forms/project-set-up.php');
+						echo '<div class="tabs-wrapper">';
+							echo '<div class="tab tab-1">';
+								require_once(dirname(__FILE__) . '/forms/clinic-information.php');
+							echo '</div>';
 
-						require_once(dirname(__FILE__) . '/forms/digital/email-marketing/type-of-email.php');
-						require_once(dirname(__FILE__) . '/forms/digital/email-marketing/brief.php');
-						require_once(dirname(__FILE__) . '/forms/digital/email-marketing/contacts.php');
-						require_once(dirname(__FILE__) . '/forms/digital/email-marketing/email-software.php');
+							echo '<div class="tab tab-2">';
+								require_once(dirname(__FILE__) . '/forms/project-set-up.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-3">';
+								require_once(dirname(__FILE__) . '/forms/digital/email-marketing/type-of-email.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-4">';
+								require_once(dirname(__FILE__) . '/forms/digital/email-marketing/brief.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-5">';
+								require_once(dirname(__FILE__) . '/forms/digital/email-marketing/contacts.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-6">';
+								require_once(dirname(__FILE__) . '/forms/digital/email-marketing/email-software.php');
+							echo '</div>';
+
+							echo '<div class="controls">';
+								echo '<a href="#" class="prev">Previous</a>';
+								echo '<a href="#" class="next">Next</a>';
+							echo '</div>';
+
+							echo '<div class="step-pagination">';
+								echo '<span class="step step-1"></span>';
+								echo '<span class="step step-2"></span>';
+								echo '<span class="step step-3"></span>';
+								echo '<span class="step step-4"></span>';
+								echo '<span class="step step-5"></span>';
+								echo '<span class="step step-6"></span>';
+							echo '</div>';
+						echo '</div>';
 					}
 
 					if ( $term_meta['project_type'] == 'Digital - Google Ad Words' ){
 						//echo '<input type="hidden" name="section_clinic_information" value="Digital - Google Ad Words" />';
-						require_once(dirname(__FILE__) . '/forms/clinic-information.php');
-						require_once(dirname(__FILE__) . '/forms/project-set-up.php');
+						echo '<div class="tabs-wrapper">';
+							echo '<div class="tab tab-1">';
+								require_once(dirname(__FILE__) . '/forms/clinic-information.php');
+							echo '</div>';
 
-						require_once(dirname(__FILE__) . '/forms/digital/google-ad-words/brief.php');
+							echo '<div class="tab tab-2">';
+								require_once(dirname(__FILE__) . '/forms/project-set-up.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-3">';
+								require_once(dirname(__FILE__) . '/forms/digital/google-ad-words/brief.php');
+							echo '</div>';
+
+							echo '<div class="controls">';
+								echo '<a href="#" class="prev">Previous</a>';
+								echo '<a href="#" class="next">Next</a>';
+							echo '</div>';
+
+							echo '<div class="step-pagination">';
+								echo '<span class="step step-1"></span>';
+								echo '<span class="step step-2"></span>';
+								echo '<span class="step step-3"></span>';
+							echo '</div>';
+						echo '</div>';
 					}
 
 					if ( $term_meta['project_type'] == 'Digital - Lead Nurturing Campaign' ){
 						//echo '<input type="hidden" name="section_clinic_information" value="Digital - Lead Nurturing Campaign" />';
-						require_once(dirname(__FILE__) . '/forms/clinic-information.php');
-						require_once(dirname(__FILE__) . '/forms/project-set-up.php');
+						echo '<div class="tabs-wrapper">';
+							echo '<div class="tab tab-1">';
+								require_once(dirname(__FILE__) . '/forms/clinic-information.php');
+							echo '</div>';
 
-						require_once(dirname(__FILE__) . '/forms/digital/lead-nurturing-campaign/contacts.php');
+							echo '<div class="tab tab-2">';
+								require_once(dirname(__FILE__) . '/forms/project-set-up.php');
+							echo '</div>';
+
+							echo '<div class="tab tab-3">';
+								require_once(dirname(__FILE__) . '/forms/digital/lead-nurturing-campaign/contacts.php');
+							echo '</div>';
+
+							echo '<div class="controls">';
+								echo '<a href="#" class="prev">Previous</a>';
+								echo '<a href="#" class="next">Next</a>';
+							echo '</div>';
+
+							echo '<div class="step-pagination">';
+								echo '<span class="step step-1"></span>';
+								echo '<span class="step step-2"></span>';
+								echo '<span class="step step-3"></span>';
+							echo '</div>';
+						echo '</div>';
 					}
 				}
 
 				echo '<input type="submit" name="submit">';
-			} 
+			}
 			?>
 		</form>
 	<?php
