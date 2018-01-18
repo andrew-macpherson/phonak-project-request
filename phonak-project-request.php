@@ -273,6 +273,8 @@ function phonak_project_request(){
 }
 add_shortcode('phonak_project_request','phonak_project_request');
 
+
+/*
 function phonak_project_request_2() {
 	echo '<script src="'.plugins_url('js/project-request.js',__FILE__).'"></script>';
 	?>
@@ -292,6 +294,99 @@ function phonak_project_request_2() {
 	<?php
 }
 add_shortcode('phonak_project_request_2','phonak_project_request_2');
+*/
+
+
+
+
+
+
+
+function phonak_project_request_2() {
+	echo '<script src="'.plugins_url('js/project-request.js',__FILE__).'"></script>';
+	echo '<script src="'.plugins_url('js/tabs.js',__FILE__).'"></script>';
+
+	?>
+
+	<div class="tabs-wrapper">
+		<div class="tab tab-1 active">
+			<?php echo require_once(dirname(__FILE__) . '/forms/clinic-information.php'); ?>
+		</div>
+		<div class="tab tab-2">
+			<div>
+				<div>
+					<div>
+						<select name="destination" class="projectTypeSelector">
+							<option>Select a Project Type</option>
+							<optgroup label="Print Marketing">
+								<option>Print Advertisement</option>
+								<option>Direct Mail</option>
+							</optgroup>
+							<optgroup label="Logo, Brochure & Stationary">
+								<option>Logo</option>
+								<option>Brochure</option>
+								<option>Stationary</option>
+							</optgroup>
+							<optgroup label="Database Marketing">
+								<option>Newsletter</option>
+								<option>Appointment Anniversary</option>
+								<option>Greeting Cards</option>
+								<option>Letter</option>
+							</optgroup>
+							<optgroup label="Digital Marketing">
+								<option>Facebook Ad Campaign</option>
+								<option>Email Marketing</option>
+								<option>Google Ad Words</option>
+								<option>Lead Nurturing Campaign</option>
+							</optgroup>
+							<optgroup label="Medical Professional Partnerships">
+								<option>GP One Pagers</option>
+							</optgroup>
+							<optgroup label="Other">
+								<option>Describe</option>
+							</optgroup>
+						</select>
+					</div>
+					<div>
+						<a href="#" class="redirect">GET STARTED</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="additionalTabContent">
+			
+		</div>
+
+
+		<div class="controls">
+			<a href="#" class="prev inactive">Previous</a>
+			<a href="#" class="next">Next</a>
+		</div>
+
+		<div class="step-pagination">
+			<span class="step step-1 active"></span>
+			<span class="step step-2"></span>
+			<div class="additionalTabs">
+
+			</div>
+		</div>
+
+	</div>
+
+
+	<?php
+}
+add_shortcode('phonak_project_request_2','phonak_project_request_2');
+
+
+
+
+
+
+
+
+
 
 function phonak_project(){
 	$success = false;
