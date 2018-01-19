@@ -9,4 +9,12 @@
 		<label>Monthly Budget</label>
 		<input type="text" name="monthly_budget" value="<?php if(isset($_POST['monthly_budget'])){ echo $_POST['monthly_budget']; } ?>" />
 	</div>
+	<div>
+		<label>Upload Supporting Documents</label>
+		<input type="file" name="supporting_documents" value="<?php if(isset($_POST['supporting_documents'])){ echo $_POST['supporting_documents']; } ?>" />
+	</div>
+	<div>
+		<label>Other Notes</label>
+		<input type="text" name="other_notes" value="<?php if(isset($_POST['other_notes'])){ echo $_POST['other_notes']; } ?>" />
+	</div>
 </div>

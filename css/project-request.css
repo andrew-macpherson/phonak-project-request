@@ -207,6 +207,7 @@
 
 .tabs-wrapper .tab {
     display: none;
+    margin-bottom: 50px;
 }
 .tabs-wrapper .tab.active {
     display: block;
@@ -237,6 +238,7 @@
 }
 .tabs-wrapper .step-pagination {
     text-align: center;
+    margin-top: 40px;
 }
 .tabs-wrapper .step {
     margin: 0 2px;
@@ -258,4 +260,22 @@ a.redirect {
 }
 a.redirect:hover {
     background: #ccc;
+}
+
+
+.additionalTabs{
+    display: inline-block;
+}
+
+
+#submitProjectForm{
+    display: none;
+    float: right;
+    cursor: pointer;
+}
+
+
+.project_request_form > div > div.tab > div > div,
+.project_request_form > div > div.additionalTabContent > div.tab > div > div{
+    margin-bottom: 10px;
 }

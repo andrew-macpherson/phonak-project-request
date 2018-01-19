@@ -254,7 +254,7 @@ function phonak_project_request(){
 
 			</div>
 
-			<input type="submit" name="submit">
+			<input type="submit" name="submit" />
 		</form>
 
 
@@ -303,18 +303,138 @@ add_shortcode('phonak_project_request_2','phonak_project_request_2');
 
 
 function phonak_project_request_2() {
+	/*
+	*
+	*
+	* Handle submit stuff. 
+	*
+	*
+	*/
+	$success = false;
+	if(isset($_POST['submit'])){
+
+		// Filter out any post items we don't need. Example: submit
+		$filterOut = ['submit'];
+		foreach($filterOut as $out){
+			unset($_POST[$out]);
+		}
+
+		// define string replace array
+		$replace = ['_'];
+		$replaceWith = [' '];
+
+		$description = convert_post_to_description();
+
+		// Hit API
+		$username='phonakmarketingwebsite';
+		$password='Phonak1176!';
+		$apikey = 'V81L-YXDN-U7M5-QOJ9-PWFM3UN-US7044';
+		$URL='https://api.proworkflow.net/projectrequests?apikey='.$apikey;
+
+		$projectTitle = $_POST['project_name'];
+
+		$projectData = [
+			'title' 		=> $projectTitle,
+			'description' 	=> $description
+		];
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL,$URL);
+		curl_setopt($ch, CURLOPT_USERPWD, $username.":".$password);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $projectData);
+		$result = curl_exec($ch);
+
+		$status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
+
+		if($status_code == 201){
+			$decodedResponse = json_decode($result);
+			$projectId = $decodedResponse->details[0]->id;
+			curl_close($ch);
+			$success = true;
+		}else{
+			print curl_error($ch);
+		}
+
+	}
+
+
+
 	echo '<script src="'.plugins_url('js/project-request.js',__FILE__).'"></script>';
 	echo '<script src="'.plugins_url('js/tabs.js',__FILE__).'"></script>';
 
 	?>
 
-	<div class="tabs-wrapper">
-		<div class="tab tab-1 active">
-			<?php echo require_once(dirname(__FILE__) . '/forms/clinic-information.php'); ?>
-		</div>
-		<div class="tab tab-2">
-			<div>
+
+
+	<?php if($success){
+		echo '<p style="color:#86bc24; text-align:center; font-size:26px; margin: 100px 0;">Project successfully submitted.<p>';
+	}else{ ?>
+	<form class="project_request_form" method="post" action="#" enctype="multipart/form-data">
+		<div class="tabs-wrapper">
+			<div class="tab tab-1 active">
+				<input type="hidden" name="section_clinic_information" value="CLINIC INFORMATION" />
 				<div>
+					<h3>Clinic Content for Advertisement</h3>
+					<div>
+						<label>Clinic Name</label>
+						<input type="text" name="clinic_name" value="<?php if(isset($_POST['clinic_name'])){ echo $_POST['clinic_name']; } ?>" />
+					</div>
+					<div>
+						<label>Address</label>
+						<input type="text" name="clinic_address" value="<?php if(isset($_POST['clinic_address'])){ echo $_POST['clinic_address']; } ?>" />
+					</div>
+					<div>
+						<label>Phone Number</label>
+						<input type="text" name="clinic_phone" value="<?php if(isset($_POST['clinic_phone'])){ echo $_POST['clinic_phone']; } ?>" />
+					</div>
+					<div>
+						<label>Website</label>
+						<input type="text" name="clinic_Website" value="<?php if(isset($_POST['clinic_Website'])){ echo $_POST['clinic_Website']; } ?>" />
+					</div>
+
+					<div>
+						<label>Contact Name</label>
+						<input type="text" name="clinic_contact_name" value="<?php if(isset($_POST['clinic_contact_name'])){ echo $_POST['clinic_contact_name']; } ?>" />
+					</div>
+					<div>
+						<label>Contact Email</label>
+						<input type="text" name="clinic_contact_email" value="<?php if(isset($_POST['clinic_contact_email'])){ echo $_POST['clinic_contact_email']; } ?>" />
+					</div>
+					<div>
+						<label>Regional Sales Manager?</label>
+						<select name="regional_sales_manager" style="width: 100%" required>
+							<option>Select your RSM</option>
+							<option>Aaron Lee</option>
+							<option>Brent Wildeman</option>
+							<option>Daryl Houghton</option>
+							<option>Jacques Erpelding</option>
+							<option>Janace Daley</option>
+							<option>Lara Livingston</option>
+							<option>Nadine Anis</option>
+							<option>Nicky Saldhana</option>
+							<option>Samantha McKendrick</option>
+							<option>Sarah Young</option>
+						</select>
+					</div>
+
+				</div>
+			</div>
+			<div class="tab tab-2">
+				<div>
+					<input type="hidden" name="section_clinic_information" value="PROJECT SETUP" />
+					<h3>Project Set Up</h3>
+					<div>
+						<label>Name of Project</label>
+						<input type="text" name="project_name" value="<?php if(isset($_POST['project_name'])){ echo $_POST['project_name']; } ?>" />
+					</div>
+					<div>
+						<label>Project Submission Date</label>
+						<input type="text" name="project_submission_date" value="<?php if(isset($_POST['project_submission_date'])){ echo $_POST['project_submission_date']; } ?>" />
+					</div>
+				
 					<div>
 						<select name="destination" class="projectTypeSelector">
 							<option>Select a Project Type</option>
@@ -347,33 +467,32 @@ function phonak_project_request_2() {
 							</optgroup>
 						</select>
 					</div>
-					<div>
-						<a href="#" class="redirect">GET STARTED</a>
-					</div>
 				</div>
 			</div>
-		</div>
 
-		<div class="additionalTabContent">
-			
-		</div>
-
-
-		<div class="controls">
-			<a href="#" class="prev inactive">Previous</a>
-			<a href="#" class="next">Next</a>
-		</div>
-
-		<div class="step-pagination">
-			<span class="step step-1 active"></span>
-			<span class="step step-2"></span>
-			<div class="additionalTabs">
-
+			<div class="additionalTabContent">
+				
 			</div>
+
+
+			<div class="controls">
+				<a href="#" class="prev inactive">Previous</a>
+				<a href="#" class="next">Next</a>
+
+				<input type="submit" name="submit" value="submit" id="submitProjectForm"  />
+			</div>
+
+			<div class="step-pagination">
+				<span class="step step-1 active"></span>
+				<span class="step step-2"></span>
+				<div class="additionalTabs">
+
+				</div>
+			</div>
+
 		</div>
-
-	</div>
-
+	</form>
+	<?php } ?>
 
 	<?php
 }
@@ -392,6 +511,8 @@ function phonak_project(){
 	$success = false;
 	//PROCESS FORM DATA IF SUBBMITED
 	if(isset($_POST['submit'])){
+
+		echo 'submit';
 
 		// Filter out any post items we don't need. Example: submit
 		$filterOut = ['submit'];

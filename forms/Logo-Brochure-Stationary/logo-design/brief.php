@@ -14,10 +14,6 @@
 		<input type="text" name="imagery_ideas" value="<?php if(isset($_POST['imagery_ideas'])){ echo $_POST['imagery_ideas']; } ?>" />
 	</div>
 	<div>
-		<label>Imagery Ideas</label>
-		<input type="text" name="imagery_ideas" value="<?php if(isset($_POST['imagery_ideas'])){ echo $_POST['imagery_ideas']; } ?>" />
-	</div>
-	<div>
 		<label>Upload Supporting Documents</label>
 		<input type="file" name="supporting_documents" value="<?php if(isset($_POST['supporting_documents'])){ echo $_POST['supporting_documents']; } ?>" />
 	</div>

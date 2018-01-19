@@ -22,8 +22,8 @@
 		<input type="text" name="imagery_notes" value="<?php if(isset($_POST['imagery_notes'])){ echo $_POST['imagery_notes']; } ?>" />
 	</div>
 	<div>
-		<label>Ad Supporting Documents</label>
-		<input type="text" name="ad_supporting_documents" value="<?php if(isset($_POST['ad_supporting_documents'])){ echo $_POST['ad_supporting_documents']; } ?>" />
+		<label>Supporting Documents</label>
+		<input type="file" name="supporting_documents" value="<?php if(isset($_POST['supporting_documents'])){ echo $_POST['supporting_documents']; } ?>" />
 	</div>
 	<div>
 		<label>Dimensions</label>

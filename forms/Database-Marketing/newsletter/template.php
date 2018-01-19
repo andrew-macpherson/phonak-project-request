@@ -1,6 +1,6 @@
 <?php 
 include '../../../../../wp-load.php';
-$term_id = 58;
+$term_id = 60;
 
 query_posts(array(
     'post_type' => 'project-elements',

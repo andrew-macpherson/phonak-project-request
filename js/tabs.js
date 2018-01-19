@@ -1,3 +1,6 @@
+var siteUrl = 'http://phonakmarketing.ca/site';
+//var siteUrl = 'http://localhost:81/phonakmarketing';
+
 var tab = 1;
 jQuery(document).on('click','.tabs-wrapper .next',function(e) {
     e.preventDefault();
@@ -23,9 +26,12 @@ function updateTab(val) {
     }
     if(tab == jQuery('.tab').length) {
         jQuery('.next').addClass('inactive');
-    }
-    else {
+        if(jQuery('.tab').length != 2){
+            jQuery('#submitProjectForm').show();
+        }
+    }else {
         jQuery('.next').removeClass('inactive');
+        jQuery('#submitProjectForm').hide();
     }
     if(tab < jQuery('.tab').length) {
         jQuery('input[type="submit"]').addClass('inactive');
@@ -64,8 +70,8 @@ jQuery(document).on('change','.projectTypeSelector',function(e) {
             </div>
         `);
 
-        jQuery('.tab-3').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Advertisements-&-Direct-Mail/type-of-ad.php');
-        jQuery('.tab-4').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Advertisements-&-Direct-Mail/brief.php');
+        jQuery('.tab-3').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Advertisements-&-Direct-Mail/type-of-ad.php');
+        jQuery('.tab-4').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Advertisements-&-Direct-Mail/brief.php');
 
    }
    if(val == 'Direct Mail'){
@@ -93,10 +99,10 @@ jQuery(document).on('change','.projectTypeSelector',function(e) {
             </div>
         `);
 
-        jQuery('.tab-3').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Advertisements-&-Direct-Mail/type-of-project.php');
-        jQuery('.tab-4').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Advertisements-&-Direct-Mail/postage-type.php');
-        jQuery('.tab-5').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Advertisements-&-Direct-Mail/postage-type-demographics.php');
-        jQuery('.tab-6').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Advertisements-&-Direct-Mail/brief.php');
+        jQuery('.tab-3').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Advertisements-&-Direct-Mail/type-of-project.php');
+        jQuery('.tab-4').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Advertisements-&-Direct-Mail/postage-type.php');
+        jQuery('.tab-5').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Advertisements-&-Direct-Mail/postage-type-demographics.php');
+        jQuery('.tab-6').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Advertisements-&-Direct-Mail/brief.php');
    }
    if(val == 'Logo'){
         additionalTabs = 1;
@@ -108,7 +114,7 @@ jQuery(document).on('change','.projectTypeSelector',function(e) {
             </div>
         `);
 
-        jQuery('.tab-3').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Logo-Brochure-Stationary/logo-design/brief.php');
+        jQuery('.tab-3').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Logo-Brochure-Stationary/logo-design/brief.php');
    }
    if(val == 'Brochure'){
         additionalTabs = 2;
@@ -126,8 +132,8 @@ jQuery(document).on('change','.projectTypeSelector',function(e) {
             </div>
         `);
 
-        jQuery('.tab-3').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Logo-Brochure-Stationary/template.php');
-        jQuery('.tab-4').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Logo-Brochure-Stationary/brochures/brief.php');
+        jQuery('.tab-3').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Logo-Brochure-Stationary/template.php');
+        jQuery('.tab-4').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Logo-Brochure-Stationary/brochures/brief.php');
    }
    if(val == 'Stationary'){
         additionalTabs = 2;
@@ -145,8 +151,8 @@ jQuery(document).on('change','.projectTypeSelector',function(e) {
             </div>
         `);
 
-        jQuery('.tab-3').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Logo-Brochure-Stationary/type.php');
-        jQuery('.tab-4').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Logo-Brochure-Stationary/stationary/brief.php');
+        jQuery('.tab-3').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Logo-Brochure-Stationary/type.php');
+        jQuery('.tab-4').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Logo-Brochure-Stationary/stationary/brief.php');
 
    }
    if(val == 'Newsletter'){
@@ -180,11 +186,11 @@ jQuery(document).on('change','.projectTypeSelector',function(e) {
             </div>
         `);
 
-        jQuery('.tab-3').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Database-Marketing/type.php');
-        jQuery('.tab-4').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Database-Marketing/template.php');
-        jQuery('.tab-5').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Database-Marketing/newsletter/brief.php');
-        jQuery('.tab-6').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Database-Marketing/delivery-options.php');
-        jQuery('.tab-7').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Database-Marketing/contact-list.php');
+        jQuery('.tab-3').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Database-Marketing/type.php');
+        jQuery('.tab-4').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Database-Marketing/newsletter/template.php');
+        jQuery('.tab-5').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Database-Marketing/newsletter/brief.php');
+        jQuery('.tab-6').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Database-Marketing/delivery-options.php');
+        jQuery('.tab-7').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Database-Marketing/contact-list.php');
    }
    if(val == 'Appointment Anniversary'){
         additionalTabs = 5;
@@ -217,11 +223,11 @@ jQuery(document).on('change','.projectTypeSelector',function(e) {
             </div>
         `);
 
-        jQuery('.tab-3').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Database-Marketing/type.php');
-        jQuery('.tab-4').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Database-Marketing/template.php');
-        jQuery('.tab-5').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Database-Marketing/appointment-anniversary/brief.php');
-        jQuery('.tab-6').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Database-Marketing/delivery-options.php');
-        jQuery('.tab-7').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Database-Marketing/contact-list.php');
+        jQuery('.tab-3').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Database-Marketing/type.php');
+        jQuery('.tab-4').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Database-Marketing/appointment-anniversary/template.php');
+        jQuery('.tab-5').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Database-Marketing/appointment-anniversary/brief.php');
+        jQuery('.tab-6').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Database-Marketing/delivery-options.php');
+        jQuery('.tab-7').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Database-Marketing/contact-list.php');
    }
    if(val == 'Greeting Cards'){
         additionalTabs = 5;
@@ -254,11 +260,11 @@ jQuery(document).on('change','.projectTypeSelector',function(e) {
             </div>
         `);
 
-        jQuery('.tab-3').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Database-Marketing/type.php');
-        jQuery('.tab-4').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Database-Marketing/occasion.php');
-        jQuery('.tab-5').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Database-Marketing/template.php');
-        jQuery('.tab-6').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Database-Marketing/greeting-cards/brief.php');
-        jQuery('.tab-7').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Database-Marketing/contact-list.php');
+        jQuery('.tab-3').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Database-Marketing/type.php');
+        jQuery('.tab-4').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Database-Marketing/occasion.php');
+        jQuery('.tab-5').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Database-Marketing/greeting-cards/template.php');
+        jQuery('.tab-6').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Database-Marketing/greeting-cards/brief.php');
+        jQuery('.tab-7').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Database-Marketing/contact-list.php');
    }
    if(val == 'Letter'){
         additionalTabs = 4;
@@ -286,10 +292,10 @@ jQuery(document).on('change','.projectTypeSelector',function(e) {
             </div>
         `);
 
-        jQuery('.tab-3').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Database-Marketing/type.php');
-        jQuery('.tab-4').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Database-Marketing/letter/brief.php');
-        jQuery('.tab-5').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Database-Marketing/delivery-options.php');
-        jQuery('.tab-6').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/Database-Marketing/contact-list.php');
+        jQuery('.tab-3').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Database-Marketing/type.php');
+        jQuery('.tab-4').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Database-Marketing/letter/brief.php');
+        jQuery('.tab-5').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Database-Marketing/delivery-options.php');
+        jQuery('.tab-6').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/Database-Marketing/contact-list.php');
    }
    if(val == 'Facebook Ad Campaign'){
         additionalTabs = 2;
@@ -307,8 +313,8 @@ jQuery(document).on('change','.projectTypeSelector',function(e) {
             </div>
         `);
 
-        jQuery('.tab-3').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/digital/objective.php');
-        jQuery('.tab-4').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/digital/facebook-ad-campaign/brief.php');
+        jQuery('.tab-3').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/digital/objective.php');
+        jQuery('.tab-4').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/digital/facebook-ad-campaign/brief.php');
    }
    if(val == 'Email Marketing'){
         additionalTabs = 4;
@@ -336,10 +342,10 @@ jQuery(document).on('change','.projectTypeSelector',function(e) {
             </div>
         `);
 
-        jQuery('.tab-3').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/digital/email-marketing/type-of-email.php');
-        jQuery('.tab-4').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/digital/email-marketing/brief.php');
-        jQuery('.tab-5').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/digital/email-marketing/contacts.php');
-        jQuery('.tab-6').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/digital/email-marketing/email-software.php');
+        jQuery('.tab-3').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/digital/email-marketing/type-of-email.php');
+        jQuery('.tab-4').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/digital/email-marketing/brief.php');
+        jQuery('.tab-5').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/digital/email-marketing/contacts.php');
+        jQuery('.tab-6').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/digital/email-marketing/email-software.php');
    }
    if(val == 'Google Ad Words'){
         additionalTabs = 1;
@@ -352,7 +358,7 @@ jQuery(document).on('change','.projectTypeSelector',function(e) {
             </div>
         `);
 
-        jQuery('.tab-3').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/digital/google-ad-words/brief.php');
+        jQuery('.tab-3').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/digital/google-ad-words/brief.php');
    }
    if(val == 'Lead Nurturing Campaign'){
         additionalTabs = 1;
@@ -365,13 +371,41 @@ jQuery(document).on('change','.projectTypeSelector',function(e) {
             </div>
         `);
 
-        jQuery('.tab-3').load('http://phonakmarketing.ca/site/wp-content/plugins/phonak-project-request/forms/digital/lead-nurturing-campaign/contacts.php');
+        jQuery('.tab-3').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/digital/lead-nurturing-campaign/contacts.php');
    }
    if(val == 'GP One Pagers'){
         additionalTabs = 2;
+
+         jQuery('.additionalTabContent').html(`
+            <div class="tab tab-3">
+                <div>
+
+                </div>
+            </div>
+            <div class="tab tab-4">
+                <div>
+
+                </div>
+            </div>
+        `);
+
+        jQuery('.tab-3').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/GP-One-Pagers/topic.php');
+        jQuery('.tab-4').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/GP-One-Pagers/brief.php');
+
    }
    if(val == 'Describe'){
         additionalTabs = 1;
+
+        jQuery('.additionalTabContent').html(`
+            <div class="tab tab-3">
+                <div>
+
+                </div>
+            </div>
+        `);
+
+        jQuery('.tab-3').load(siteUrl+'/wp-content/plugins/phonak-project-request/forms/other/describe.php');
+
    }
 
    jQuery('.additionalTabs').html('');
@@ -379,5 +413,9 @@ jQuery(document).on('change','.projectTypeSelector',function(e) {
         var step = i + 3;
         jQuery('.additionalTabs').append('<span class="step step-'+step+'"></span>');
    }
+
+
+
+   updateTab(0);
 
 });
