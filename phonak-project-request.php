@@ -322,7 +322,44 @@ function phonak_quick_project_request(){
 			$decodedResponse = json_decode($result);
 			$projectId = $decodedResponse->details[0]->id;
 			curl_close($ch);
-			$success = true;
+			//$success = true;
+
+
+			// deal with any attached files after we have the project ID.
+			if(!empty($_FILES)){
+				$description .= '<strong>File Attachments</strong>';
+				foreach($_FILES as $key => $val){
+
+					if($_FILES[$key]['tmp_name'] != ''){
+						$fileData =  [
+							'content' => base64_encode(file_get_contents($_FILES[$key]['tmp_name'])),
+							'name' => $_FILES[$key]['name'],
+							'projectid' => $projectId
+						];
+
+						$URL='https://api.proworkflow.net/files?apikey='.$apikey;
+						$ch = curl_init();
+						curl_setopt($ch, CURLOPT_URL,$URL);
+						curl_setopt($ch, CURLOPT_USERPWD, $username.":".$password);
+						curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+						curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+						curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+						curl_setopt($ch, CURLOPT_POSTFIELDS, $fileData);
+
+						$result = curl_exec($ch);
+						$decodedResponse = json_decode($result);
+
+					}
+
+				}
+
+				$success = true;
+
+			}else{
+
+				$success = true;
+			}
+
 		}else{
 			print curl_error($ch);
 		}
@@ -453,6 +490,14 @@ function phonak_quick_project_request(){
 					<textarea name="description" required><?php if(isset($_POST['project_description'])){ echo $_POST['project_description']; } ?></textarea>
 				</div>
 			</div>
+			<!--
+			<div>
+				<h3>Project Files</h3>
+				<div>
+					<input type="file" name="attachments"   />
+				</div>
+			</div>
+		-->
 
 
 			<input type="submit" name="submit" value="Submit Project Request" />
