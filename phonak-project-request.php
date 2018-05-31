@@ -141,7 +141,8 @@ function phonak_project_request(){
 
 	<?php
 	if($success){
-		echo '<p style="color:#86bc24; text-align:center; font-size:26px; margin: 100px 0;">Project successfully submitted.<p>';
+		//echo '<p style="color:#86bc24; text-align:center; font-size:26px; margin: 100px 0;">Project successfully submitted.<p>';
+		echo '<script>window.location="'.get_bloginfo('url').'/project-request-complete/";</script>';
 	}else{
 	?>
 		<form class="project_request_form" method="post" action="#" enctype="multipart/form-data">
@@ -507,7 +508,7 @@ function phonak_project_request_2() {
 	/*
 	*
 	*
-	* Handle submit stuff. 
+	* Handle submit stuff.
 	*
 	*
 	*/
@@ -634,7 +635,7 @@ function phonak_project_request_2() {
 						<label>Project Submission Date</label>
 						<input type="text" name="project_submission_date" value="<?php if(isset($_POST['project_submission_date'])){ echo $_POST['project_submission_date']; } ?>" />
 					</div>
-				
+
 					<div>
 						<select name="destination" class="projectTypeSelector">
 							<option>Select a Project Type</option>
@@ -671,7 +672,7 @@ function phonak_project_request_2() {
 			</div>
 
 			<div class="additionalTabContent">
-				
+
 			</div>
 
 
