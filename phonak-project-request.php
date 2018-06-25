@@ -490,14 +490,13 @@ function phonak_quick_project_request(){
 					<textarea name="description" required><?php if(isset($_POST['project_description'])){ echo $_POST['project_description']; } ?></textarea>
 				</div>
 			</div>
-			<!--
+
 			<div>
 				<h3>Project Files</h3>
 				<div>
 					<input type="file" name="attachments"   />
 				</div>
 			</div>
-		-->
 
 
 			<input type="submit" name="submit" value="Submit Project Request" />
