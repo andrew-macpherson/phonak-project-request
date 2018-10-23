@@ -1,4 +1,4 @@
-var siteUrl = 'http://phonakmarketing.ca/site';
+var siteUrl = 'https://phonakmarketing.ca/site';
 //var siteUrl = 'http://localhost:81/phonakmarketing';
 
 var tab = 1;
