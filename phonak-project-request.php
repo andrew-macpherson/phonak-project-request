@@ -894,9 +894,7 @@ function phonak_project(){
 			$term_meta = get_option( 'taxonomy_'.$term_id );
 			$sku_code = get_post_meta(get_the_ID(),'sku_code',true);
 
-			if (strpos($_SERVER['REQUEST_URI'], "marvel") == false){
-				echo '<h2 class="greenBar">'.$parent_term->name.'</h2>';
-			}
+			echo '<h2>'.$parent_term->name.'</h2>';
 
 
 
