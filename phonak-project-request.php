@@ -894,40 +894,46 @@ function phonak_project(){
 			$term_meta = get_option( 'taxonomy_'.$term_id );
 			$sku_code = get_post_meta(get_the_ID(),'sku_code',true);
 
-			echo '<h2>'.$parent_term->name.'</h2>';
+			//print_r($term_id);
+			//print_r($parent_term);
 
-			$breadcrumbs = array();
-			$term = get_queried_object();
+			/*$term_new = get_queried_object();
 			$f = true;
-			print_r($parent_term);
-			/*do {
-				$parent = ( isset( $term->parent ) ) ? get_term_by( 'term_id', $term->parent, 'phonak-project' ) : false;
+			$breadcrumbData = array();
+			$a = array();
+			$breadcrumbData[0]['name'] = $term_new->name;
+			$breadcrumbData[0]['slug'] = $term_new->slug;
+			echo 'Loop start<br/>';
+
+			do {
+				$parent = get_term_by( 'id', $term_new->parent, $taxonomy_name );
+				echo 'parent:<br/>';
 				print_r($parent);
-				if($parent) {
-					$thing['slug'] = $parent->slug;
-					$thing['name'] = $parent->name;
-					array_push($breadcrumbs,$thing);
+				if(is_numeric($parent->parent) && $parent->parent != 0) {
+					print_r('step 1');
+					$a['name'] = $parent->name;
+					$a['slug'] = $parent->slug;
+					$term_new = get_term_by( 'id', $parent->parent, $taxonomy_name );
+					array_push($breadcrumbData,$a);
+				}
+				else if(is_numeric($parent->parent) && $parent->parent == 0) {
+					print_r('step 2');
+					$a['name'] = $parent->name;
+					$a['slug'] = $parent->slug;
+					array_push($breadcrumbData,$a);
+					$f = false;
 				}
 				else {
 					$f = false;
 				}
-			}while($f);*/
-
-			$reversed = array_reverse($breadcrumbs);
-
-			$bc = '';
-			foreach($reversed as $r) {
-				if($r['slug'] == 'Marvel') {
-					$bc .= '<a href="url here'.$r['slug'].'">All Marketing Things</a>';
-				}
-				else {
-					$bc .= '<a href="url here/'.$r['slug'].'">'.$r['name'].'</a>';
-				}
-			}
-
-			echo $bc;
+			}while($f);
 
 
+			echo 'Loop End<br/>';
+			print_r($breadcrumbData);
+			*/
+
+			echo '<h2>'.$parent_term->name.'</h2>';
 
 			$term_children = get_term_children( $term_id, $taxonomy_name );
 
