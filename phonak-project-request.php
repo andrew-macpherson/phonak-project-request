@@ -896,6 +896,37 @@ function phonak_project(){
 
 			echo '<h2>'.$parent_term->name.'</h2>';
 
+			$breadcrumbs = array();
+			$term = get_queried_object();
+			$f = true;
+			print_r($parent_term);
+			/*do {
+				$parent = ( isset( $term->parent ) ) ? get_term_by( 'term_id', $term->parent, 'phonak-project' ) : false;
+				print_r($parent);
+				if($parent) {
+					$thing['slug'] = $parent->slug;
+					$thing['name'] = $parent->name;
+					array_push($breadcrumbs,$thing);
+				}
+				else {
+					$f = false;
+				}
+			}while($f);*/
+
+			$reversed = array_reverse($breadcrumbs);
+
+			$bc = '';
+			foreach($reversed as $r) {
+				if($r['slug'] == 'Marvel') {
+					$bc .= '<a href="url here'.$r['slug'].'">All Marketing Things</a>';
+				}
+				else {
+					$bc .= '<a href="url here/'.$r['slug'].'">'.$r['name'].'</a>';
+				}
+			}
+
+			echo $bc;
+
 
 
 			$term_children = get_term_children( $term_id, $taxonomy_name );
