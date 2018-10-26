@@ -932,7 +932,9 @@ function phonak_project(){
 			echo 'Loop End<br/>';
 			print_r($breadcrumbData);
 			*/
-
+			if ( function_exists('yoast_breadcrumb') ) {
+						  yoast_breadcrumb( '<p id="breadcrumbs">','</p>' );
+						}
 			echo '<h2>'.$parent_term->name.'</h2>';
 
 			$term_children = get_term_children( $term_id, $taxonomy_name );
