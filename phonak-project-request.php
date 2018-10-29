@@ -857,7 +857,6 @@ function phonak_project(){
 				$success = true;
 
 			}else{
-				echo 'no files to upload';
 				print curl_error($ch);
 				curl_close($ch);
 
@@ -894,9 +893,48 @@ function phonak_project(){
 			$term_meta = get_option( 'taxonomy_'.$term_id );
 			$sku_code = get_post_meta(get_the_ID(),'sku_code',true);
 
+			//print_r($term_id);
+			//print_r($parent_term);
+
+			/*$term_new = get_queried_object();
+			$f = true;
+			$breadcrumbData = array();
+			$a = array();
+			$breadcrumbData[0]['name'] = $term_new->name;
+			$breadcrumbData[0]['slug'] = $term_new->slug;
+			echo 'Loop start<br/>';
+
+			do {
+				$parent = get_term_by( 'id', $term_new->parent, $taxonomy_name );
+				echo 'parent:<br/>';
+				print_r($parent);
+				if(is_numeric($parent->parent) && $parent->parent != 0) {
+					print_r('step 1');
+					$a['name'] = $parent->name;
+					$a['slug'] = $parent->slug;
+					$term_new = get_term_by( 'id', $parent->parent, $taxonomy_name );
+					array_push($breadcrumbData,$a);
+				}
+				else if(is_numeric($parent->parent) && $parent->parent == 0) {
+					print_r('step 2');
+					$a['name'] = $parent->name;
+					$a['slug'] = $parent->slug;
+					array_push($breadcrumbData,$a);
+					$f = false;
+				}
+				else {
+					$f = false;
+				}
+			}while($f);
+
+
+			echo 'Loop End<br/>';
+			print_r($breadcrumbData);
+			*/
+			if ( function_exists('yoast_breadcrumb') ) {
+						  yoast_breadcrumb( '<p id="breadcrumbs">','</p>' );
+						}
 			echo '<h2>'.$parent_term->name.'</h2>';
-
-
 
 			$term_children = get_term_children( $term_id, $taxonomy_name );
 
@@ -1612,13 +1650,25 @@ function phonak_project(){
 								echo '<a href="#" class="next">Next</a>';
 							echo '</div>';
 
-							echo '<div class="step-pagination">';
-								echo '<span class="step step-1 active"></span>';
-								echo '<span class="step step-2"></span>';
-								echo '<span class="step step-3"></span>';
-							echo '</div>';
 						echo '</div>';
 					}
+				}
+
+
+
+				/*** marvel ***/
+				if ( $term_meta['project_type'] == 'Marvel'){
+					//echo '<input type="hidden" name="section_clinic_information" value="Advertisements & Direct Mail - Print Advertisements" />';
+
+					echo '<div class="tabs-wrapper">';
+						echo '<div class="tab tab-1 active">';
+								require_once(dirname(__FILE__) . '/forms/clinic-information.php');
+						echo '</div>';
+
+						echo '<div class="step-pagination">';
+							echo '<span class="step step-1 active"></span>';
+						echo '</div>';
+					echo '</div>';
 				}
 
 				echo '<input type="submit" name="submit" value="Submit Project Request">';
@@ -1784,6 +1834,8 @@ function phonak_projects_taxonomy_add_new_meta_field() {
 			<option>Digital - Email Marketing</option>
 			<option>Digital - Google Ad Words</option>
 			<option>Digital - Lead Nurturing Campaign</option>
+
+			<option>Marvel</option>
 		</select>
 	</div>
 	<div class="form-field">
@@ -1831,6 +1883,8 @@ function phonak_projects_taxonomy_edit_new_meta_field($term) {
 				<option <?php if($term_meta['project_type'] == 'Digital - Email Marketing'){ echo 'SELECTED'; } ?>>Digital - Email Marketing</option>
 				<option <?php if($term_meta['project_type'] == 'Digital - Google Ad Words'){ echo 'SELECTED'; } ?>>Digital - Google Ad Words</option>
 				<option <?php if($term_meta['project_type'] == 'Digital - Lead Nurturing Campaign'){ echo 'SELECTED'; } ?>>Digital - Lead Nurturing Campaign</option>
+
+				<option <?php if($term_meta['project_type'] == 'Marvel'){ echo 'SELECTED'; } ?>>Marvel</option>
 			</select>
 		</td>
 	</tr>
