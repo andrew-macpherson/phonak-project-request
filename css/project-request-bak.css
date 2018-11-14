@@ -1,0 +1,281 @@
+#main-content .container.noSidebar:before{
+	display: none;
+}
+.directbanner{
+	margin-top: -150px;
+	float: left;
+}
+.skualign {
+  position: absolute;
+  left: 33px;
+  background-color: #86bc23;
+  color: white;
+  font-size: 22px;
+  padding: 0px 5px;
+  font-weight: bold;
+}
+.project_list{
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+.project_list > div{
+	width: 21%;
+	margin:20px;
+}
+.project_list > div img{
+	border: 1px solid #a8a8a8;
+}
+.project_list > div
+ .button{
+    color: #ffffff;
+    background-color: #86bc23;
+    padding-top: 10px;
+    padding-right: 10px ;
+    padding-bottom: 10px ;
+    padding-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    display: block;
+}
+.project_elements{
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+.project_elements > div{
+	width: 20%;
+	margin:20px;
+	text-align: center;
+	border-radius: 10px;
+	padding: 20px 7px 7px 7px;
+	position: relative;
+	background: #f1f1f1;
+    box-shadow: inset 0 0 2px 3px #f1f1f1, inset 0 0 0 7px #86bc23;
+}
+
+.tgl {
+    position: relative;
+    outline: 0;
+    display: inline-block;
+    cursor: pointer;
+    user-select: none;
+    margin: 0 0 5px 0;
+    width: 125px;
+    margin: auto;
+    margin-top: 15px;
+}
+.tgl input[type="checkbox"] {
+    display: none !important;
+}
+.tgl input[type="checkbox"]:checked + span {
+    background: #86bc23;
+    color: #FFFFFF;
+    padding-left: 0.4em;
+    padding-right: 1.6em;
+}
+.tgl span {
+    position: relative;
+    display: block;
+    height: 1.8em;
+    line-height: 1.2em;
+    overflow: hidden;
+    font-weight: normal;
+    text-align: center;
+    border-radius: 2em;
+    padding: 0.2em 1em;
+    border: 1px solid #fafafa;
+    box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.2), 0 2px 0 rgba(255, 255, 255, 0.7);
+    transition: color 0.3s ease, padding 0.3s ease-in-out, background 0.3s ease-in-out;
+}
+.tgl input[type="checkbox"]:checked + span:before {
+    content: attr(data-on);
+}
+.tgl span:before {
+    position: relative;
+    display: block;
+    line-height: 1.3em;
+    padding: 0 0.2em;
+    font-size: 1em;
+}
+.tgl input[type="checkbox"]:checked + span:after {
+    background: #FFFFFF;
+    left: 100%;
+}
+.tgl span:after {
+    position: absolute;
+    display: block;
+    content: '';
+    border-radius: 2em;
+    width: 1.3em;
+    height: 1.3em;
+    margin-left: -1.45em;
+    top: 0.2em;
+    background: #FFFFFF;
+    transition: left 0.3s cubic-bezier(0.175, 0.885, 0.32, 0.97), background 0.3s ease-in-out;
+}
+.tgl input[type="checkbox"]:not(:checked) + span {
+    background: #de474e;
+    color: #FFFFFF;
+    padding-left: 1.6em;
+    padding-right: 0.4em;
+}
+.tgl input[type="checkbox"]:not(:checked) + span:before {
+    content: attr(data-off);
+    color: #FFFFFF;
+}
+.tgl input[type="checkbox"]:not(:checked) + span:after {
+    background: #FFFFFF;
+    left: 1.6em;
+}
+.tgl span:after {
+    position: absolute;
+    display: block;
+    content: '';
+    border-radius: 2em;
+    width: 1.3em;
+    height: 1.3em;
+    margin-left: -1.45em;
+    top: 0.2em;
+    background: #FFFFFF;
+    transition: left 0.3s cubic-bezier(0.175, 0.885, 0.32, 0.97), background 0.3s ease-in-out;
+}
+
+
+.project_elements > div img{
+	border: 1px solid #a8a8a8;
+}
+
+.project_elements > div span.button{
+    color: #ffffff;
+    background-color: #86bc23;
+    padding-top: 10px;
+    padding-right: 10px ;
+    padding-bottom: 10px ;
+    padding-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    text-align: center;
+    display: block;
+    display: block;
+}
+.project_elements > div input{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.project_elements .view_example{
+	padding: 10px 0;
+	display: block;
+
+}
+
+
+.project_request_form{
+
+}
+
+.project_request_form > div{
+	margin-bottom: 50px;
+}
+
+.project_request_form > div > div{
+	margin-bottom: 20px;
+}
+
+.project_request_form > div > div > label{
+	display: block;
+}
+
+.project_request_form > div > div > input[type="text"],
+.project_request_form > div > div > input[type="email"],
+.project_request_form > div > div > input[type="date"]{
+	width: 100%;
+}
+.project_request_form input[type="submit"] {
+    padding: 10px 15px;
+    border: none;
+    background: #86bc23;
+    color: #fff;
+    margin-bottom: 20px;
+}
+.project_request_form input[type="submit"].inactive {
+    display: none;
+}
+
+.tabs-wrapper .tab {
+    display: none;
+    margin-bottom: 50px;
+}
+.tabs-wrapper .tab.active {
+    display: block;
+}
+.tabs-wrapper input[type="text"],
+.tabs-wrapper input[type="email"],
+.tabs-wrapper input[type="date"],
+.tabs-wrapper textarea {
+    width: 100%;
+}
+.tabs-wrapper .controls a {
+    padding: 10px 15px;
+    margin: 5px;
+    background: #86bc23;
+    color: #fff;
+}
+.tabs-wrapper .controls a.prev {
+    margin-left: 0;
+}
+.tabs-wrapper .controls a.next {
+    margin-right: 0;
+}
+.tabs-wrapper .controls a.prev.inactive,.tabs-wrapper .controls a.next.inactive {
+    background: #ccc;
+}
+.prev.inactive:hover,.next.inactive:hover {
+    cursor: default;
+}
+.tabs-wrapper .step-pagination {
+    text-align: center;
+    margin-top: 40px;
+}
+.tabs-wrapper .step {
+    margin: 0 2px;
+    width: 25px;
+    height: 25px;
+    border-radius: 25px;
+    background: #ccc;
+    display: inline-block;
+}
+.tabs-wrapper .step.active {
+    background: #86bc23;
+}
+a.redirect {
+    padding: 10px 15px;
+    margin: 10px 0 0;
+    background: #86bc23;
+    color: #fff;
+    display: inline-block;
+}
+a.redirect:hover {
+    background: #ccc;
+}
+
+
+.additionalTabs{
+    display: inline-block;
+}
+
+
+#submitProjectForm{
+    display: none;
+    float: right;
+    cursor: pointer;
+}
+
+
+.project_request_form > div > div.tab > div > div,
+.project_request_form > div > div.additionalTabContent > div.tab > div > div{
+    margin-bottom: 10px;
+}
