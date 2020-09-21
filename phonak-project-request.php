@@ -5,6 +5,8 @@ Plugin Name: Phonak Project Request
 
 
 
+
+
 /*
 *
 *
@@ -27,14 +29,108 @@ function phonak_marketing_request_app() {
 
 function phonak_marketing_request_enqueue_style() {
 	wp_enqueue_style( 'project-request', plugins_url().'/phonak-project-request/css/project-request.css', false );
+
+	wp_enqueue_style( 'jquery-ui' );
 }
 
 function phonak_marketing_request_enqueue_script() {
+	wp_enqueue_script( 'phonak-project-request', plugins_url().'/phonak-project-request/js/phonak-project-request.js', array('jquery') );
 
+	//wp_register_style('jquery-ui', plugins_url().'/phonak-project-request/css/jqueryui.css');
+	//wp_enqueue_script( 'jquery-ui-datepicker' );
 }
 
 add_action( 'wp_enqueue_scripts', 'phonak_marketing_request_enqueue_style',20 );
 add_action( 'wp_enqueue_scripts', 'phonak_marketing_request_enqueue_script' );
+
+
+/**
+ * 
+ * 
+ * post types
+ * 
+ * 
+ */
+// Press Release Post Type
+function register_phonak_post_types(){
+	register_post_type(
+		'sales_reps',
+		array(
+		'labels' => array(
+			'name' => __('Sales Reps'),
+			'singular_name' => __('Sales Rep')
+		),
+		'public' => true,
+		'has_archive' => true,
+		'rewrite' => array('slug' => 'sales-reps'),
+		'supports' => array('title', 'editor', 'thumbnail','page-attributes')
+		)
+	);
+
+
+	register_post_type(
+		'pd_team',
+		array(
+		'labels' => array(
+			'name' => __('Practice Development Team'),
+			'singular_name' => __('Practice Development Team')
+		),
+		'public' => true,
+		'has_archive' => true,
+		'rewrite' => array('slug' => 'pd-team'),
+		'supports' => array('title', 'editor', 'thumbnail','page-attributes')
+		)
+	);
+
+}
+add_action('init', 'register_phonak_post_types');
+
+//Locations Meta Boxes
+function pd_team_admin() {
+    add_meta_box( 'pd_team_admin',
+        'Data',
+        'pd_team_meta_box',
+        'pd_team', 'advanced', 'high'
+    );
+}
+add_action( 'admin_init', 'pd_team_admin' );
+
+function pd_team_meta_box( $post ) {
+    wp_enqueue_script('multiple_image_select', get_stylesheet_directory_uri(). '/admin/locations/js/multiple-image-select.js', 'jquery', '1.0.0', true );
+
+    global $post;
+
+
+    $contact_id = esc_html( get_post_meta( $post->ID, 'contact_id', true ) );
+
+    ?>
+    <table style="width: 100%;">
+        <tr>
+            <td style="width: 100%"><strong>Pro Work Flow Contact ID</strong></td>
+        </tr>
+        <tr>
+            <td><input type="text" style="width: 100%" name="contact_id" value="<?php echo $contact_id; ?>" /></td>
+        </tr>
+        <input type="hidden" name="pd_team_flag" value="true" />
+    </table>
+<?php
+}
+
+
+
+function pd_team_meta_update($post_id, $post ){
+    if ( $post->post_type == 'pd_team' ) {
+        if (isset($_POST['pd_team_flag'])) {
+            if ( isset( $_POST['contact_id'] ) && $_POST['contact_id'] != '' ) {
+                update_post_meta( $post_id, 'contact_id', $_POST['contact_id'] );
+            }else{
+                update_post_meta( $post_id, 'contact_id', '');
+            }
+        } 
+    }
+}
+
+add_action( 'save_post', 'pd_team_meta_update', 10, 2 );
 
 
 
@@ -57,8 +153,8 @@ function convert_post_to_description(){
 	$description = '';
 
 	// define string replace array
-		$replace = ['_'];
-		$replaceWith = [' '];
+	$replace = ['_'];
+	$replaceWith = [' '];
 
 	foreach($_POST as $key => $val){
 
@@ -80,11 +176,19 @@ function convert_post_to_description(){
 		}
 	}
 
-	return $description;
+
+	return stripslashes($description);
 }
 
 
-function phonak_project_request(){
+function phonak_project_request($atts){
+	extract( shortcode_atts( array(
+        'apikey' 			=> 'V81L-YXDN-U7M5-QOJ9-PWFM3UN-US7044',
+        'username'			=> 'phonakmarketingwebsite',
+        'password'			=> 'Phonak1176!'
+	), $atts ) );
+	
+
 	$success = false;
 	if(isset($_POST['submit'])){
 
@@ -101,9 +205,9 @@ function phonak_project_request(){
 		$description = convert_post_to_description();
 
 		// Hit API
-		$username='phonakmarketingwebsite';
-		$password='Phonak1176!';
-		$apikey = 'V81L-YXDN-U7M5-QOJ9-PWFM3UN-US7044';
+		//$username='phonakmarketingwebsite';
+		//$password='Phonak1176!';
+		//$apikey = 'V81L-YXDN-U7M5-QOJ9-PWFM3UN-US7044';
 		$URL='https://api.proworkflow.net/projectrequests?apikey='.$apikey;
 
 		$projectTitle = $_POST['project_name'];
@@ -171,18 +275,36 @@ function phonak_project_request(){
 					<input type="text" name="clinic_contact_name_and_email_address" value="<?php if(isset($_POST['clinic_contact_name_and_email_address'])){ echo $_POST['clinic_contact_name_and_email_address']; } ?>" required />
 				</div>
 				<div>
-					<label>Regional Sales Manager?</label>
+					<label>Regional Sales Manager</label>
 					<select name="regional_sales_manager" style="width: 100%" required>
 						<option>Select your RSM</option>
-						<option>Brent Wildeman</option>
+						<!--
 						<option>Daryl Houghton</option>
 						<option>Jacques Erpelding</option>
 						<option>Janace Daley</option>
-						<option>Lara Livingston</option>
+						<option>Lara Cox</option>
 						<option>Nadine Anis</option>
-						<option>Nicky Saldhana</option>
 						<option>Samantha McKendrick</option>
 						<option>Sarah Young</option>
+						<option>Tara Warren</option>
+						<option>Jeff Jones</option>
+						<option>Tracy Wentzel</option>
+						-->
+						<?php 
+							$sales_reps = get_posts( array(
+								'orderby'    		=> 'menu_order',
+								'order' 		=> 'ASC',
+								'post_type'		=> 'sales_reps',
+								'posts_per_page' => -1,
+							) );
+							 
+							 
+							foreach ( $sales_reps as $post ) {
+							   echo '<option>'.$post->post_title.'</option>';
+							}
+							
+						?>
+
 					</select>
 				</div>
 			</div>
@@ -274,15 +396,63 @@ function phonak_project_request(){
 add_shortcode('phonak_project_request','phonak_project_request');
 
 
+function checkCaptcha(){
+	if (isset($_POST['recaptcha_response'])) {
 
+		// Build POST request:
+		$recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
+		$recaptcha_secret = '6LejP90UAAAAAL_dgKipGUYLfVZg8DdoheOTms0_';
+		$recaptcha_response = $_POST['recaptcha_response'];
+	
+		// Make and decode POST request:
+		//$recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response);
+		//$recaptcha = json_decode($recaptcha);
 
+		$data = array(
+            'secret' => $recaptcha_secret,
+            'response' => $recaptcha_response
+        );
 
-function phonak_quick_project_request(){
+		$verify = curl_init();
+		curl_setopt($verify, CURLOPT_URL, $recaptcha_url);
+		curl_setopt($verify, CURLOPT_POST, true);
+		curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($data));
+		curl_setopt($verify, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
+		$response = curl_exec($verify);
+		$recaptcha = json_decode($response);
+		// Take action based on the score returned:
+		if ($recaptcha->score <= 0.3) {
+			// Not verified - show form error
+			echo 'ERROR: Recaptcha failed...';
+			exit;
+		}
+	}
+}
+
+function phonak_event_request($atts){
+	$siteId =get_current_blog_id();
+
+	extract( shortcode_atts( array(
+        'apikey' 			=> 'V81L-YXDN-U7M5-QOJ9-PWFM3UN-US7044',
+        'username'			=> 'phonakmarketingwebsite',
+        'password'			=> 'Phonak1176!'
+	), $atts ) );
+	
+	wp_enqueue_script( 'recaptcha', 'https://www.google.com/recaptcha/api.js?render=6LejP90UAAAAAEz9T38b5pRK69-qDCdr6GYw8y-k');
+	wp_enqueue_script( 'phonak-project-request-recaptcha', plugins_url().'/phonak-project-request/js/phonak-project-request-recaptcha.js', array('recaptcha') );
+
 	$success = false;
 	if(isset($_POST['submit'])){
 
+		checkCaptcha();
+
 		// Filter out any post items we don't need. Example: submit
-		$filterOut = ['submit'];
+		//set practive development manager
+		$practice_development_team_member = $_POST['practice_development_team_member'];
+
+		// Filter out any post items we don't need. Example: submit
+		$filterOut = ['submit','practice_development_team_member','recaptcha_response','site_id'];
 		foreach($filterOut as $out){
 			unset($_POST[$out]);
 		}
@@ -294,17 +464,24 @@ function phonak_quick_project_request(){
 		$description = convert_post_to_description();
 
 		// Hit API
-		$username='phonakmarketingwebsite';
-		$password='Phonak1176!';
-		$apikey = 'V81L-YXDN-U7M5-QOJ9-PWFM3UN-US7044';
+		//$username='phonakmarketingwebsite';
+		//$password='Phonak1176!';
+		//$apikey = 'V81L-YXDN-U7M5-QOJ9-PWFM3UN-US7044';
 		$URL='https://api.proworkflow.net/projectrequests?apikey='.$apikey;
 
-		$projectTitle = $_POST['project_name'];
+		$projectTitle = $_POST['event_name'];
+		
 
 		$projectData = [
 			'title' 		=> $projectTitle,
 			'description' 	=> $description
 		];
+
+
+		//echo 'username: '.$username.'<br/>';
+		//echo 'password: '.$password.'<br/>';
+		//echo 'apikey: '.$apikey.'<br/><br/>';
+		//print_r($projectData);
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL,$URL);
@@ -314,6 +491,242 @@ function phonak_quick_project_request(){
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $projectData);
 		$result = curl_exec($ch);
+		
+		//echo '<br/> result = '.$result.'<br/>';
+
+		//print_r($result);
+
+		$status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
+		//echo '<br/> status_code = '.$status_code.'<br/>';
+
+		if($status_code == 201){
+			$decodedResponse = json_decode($result);
+			$projectId = $decodedResponse->details[0]->id;
+			curl_close($ch);
+			//$success = true;
+
+
+			// deal with any attached files after we have the project ID.
+			if(!empty($_FILES)){
+				$description .= '<strong>File Attachments</strong>';
+
+
+				foreach($_FILES as $key => $val){
+
+					if($_FILES[$key]['tmp_name'] != ''){
+						$fileData =  [
+							'content' => base64_encode(file_get_contents($_FILES[$key]['tmp_name'])),
+							'name' => $_FILES[$key]['name'],
+							'projectid' => $projectId
+						];
+
+
+						$URL='https://api.proworkflow.net/files?apikey='.$apikey;
+						$ch = curl_init();
+						curl_setopt($ch, CURLOPT_URL,$URL);
+						curl_setopt($ch, CURLOPT_USERPWD, $username.":".$password);
+						curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+						curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+						curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+						curl_setopt($ch, CURLOPT_POSTFIELDS, $fileData);
+
+						$result = curl_exec($ch);
+						$decodedResponse = json_decode($result);
+						exit;
+					}
+
+				}
+
+				$success = true;
+
+			}else{
+
+				$success = true;
+			}
+
+		}else{
+			print curl_error($ch);
+		}
+
+	}
+
+	?>
+
+
+	<?php
+	if($success){
+		echo '<p style="text-align:center; font-size:26px; margin: 100px 0;">Event successfully submitted.<p>';
+		//echo '<script>window.location="'.get_bloginfo('url').'/project-request-complete/";</script>';
+	}else{
+	?>
+		<form class="project_request_form" method="post" action="#" enctype="multipart/form-data">
+
+			
+			<div>
+				<h3>Event Details</h3>
+				<input type="hidden" name="section_clinic_details" value="EVENT DETAILS" />
+				<div>
+					<label>Event Name</label>
+					<input type="text" name="event_name" value="<?php if(isset($_POST['event_name'])){ echo $_POST['event_name']; } ?>" required />
+				</div>
+				<div>
+					<label>Unitron Point of Contact</label>
+					<input type="text" name="unitron_point_of_contact" value="<?php if(isset($_POST['unitron_point_of_contact'])){ echo $_POST['unitron_point_of_contact']; } ?>" required />
+				</div>
+				<div>
+					<label>Date of Event</label>
+					<input type="date" name="event_date" value="<?php if(isset($_POST['event_date'])){ echo $_POST['event_date']; } ?>" class=" required" required />
+				</div>
+
+				
+				<div>
+					<label>Event Start Time</label>
+					<input type="text" name="event_start_time" value="<?php if(isset($_POST['event_start_time'])){ echo $_POST['event_start_time']; } ?>" required />
+				</div>
+				<div>
+					<label>Event End Time</label>
+					<input type="text" name="event_end_time" value="<?php if(isset($_POST['event_end_time'])){ echo $_POST['event_end_time']; } ?>" required />
+				</div>
+				<div>
+					<label>Type of Event</label>
+					<select name="type_of_event" style="width: 100%" required>
+						<option>Launch training</option>
+						<option>Off launch training</option>
+						<option>Student</option>
+						<option>Value Added Services</option>
+						<option>Key Accounts</option>
+						<option>Others</option>
+					</select>
+				</div>
+				<div>
+					<label>Purpose of The Event</label>
+					<input type="text" name="purpose_of_event" value="<?php if(isset($_POST['purpose_of_event'])){ echo $_POST['purpose_of_event']; } ?>" required />
+				</div>
+				<div>
+					<label>Estimated Number of Persons Attending</label>
+					<input type="text" name="estimated_number_of_persons_attending" value="<?php if(isset($_POST['estimated_number_of_persons_attending'])){ echo $_POST['estimated_number_of_persons_attending']; } ?>" required />
+				</div>
+				<div>
+					<label>Budget</label>
+					<input type="text" name="budget" value="<?php if(isset($_POST['budget'])){ echo $_POST['budget']; } ?>" required />
+				</div>
+				<div>
+					<label>AV needs (include Soundfield if needed)</label>
+					<input type="text" name="av_needs" value="<?php if(isset($_POST['av_needs'])){ echo $_POST['av_needs']; } ?>" required />
+				</div>
+				<div>
+					<label>Room set up</label>
+					<input type="text" name="room_set_up" value="<?php if(isset($_POST['room_set_up'])){ echo $_POST['room_set_up']; } ?>" required />
+				</div>
+				<div>
+					<label>Catering Required?</label>
+					<input type="text" name="catering_required" value="<?php if(isset($_POST['catering_required'])){ echo $_POST['catering_required']; } ?>" />
+				</div>
+				<div>
+					<label>Hotel Room Block Required?</label>
+					<input type="text" name="hotel_room_block_required" value="<?php if(isset($_POST['hotel_room_block_required'])){ echo $_POST['hotel_room_block_required']; } ?>" required />
+				</div>
+				<div>
+					<label>RSVP Needed?</label>
+					<select name="rsvp_needed" style="width: 100%" required>
+						<option>Yes</option>
+						<option>No</option>
+					</select>
+				</div>
+			</div>
+
+
+			
+
+			<input type="submit" name="submit" value="Submit Event Request" />
+		</form>
+
+
+
+		<style>
+			textarea{
+				width: 100%;
+				height: 200px;
+			}
+		</style>
+
+	<?php
+	}
+	?>
+	<?php
+}
+add_shortcode('phonak_event_request','phonak_event_request');
+
+
+function phonak_quick_project_request($atts){
+	extract( shortcode_atts( array(
+        'apikey' 			=> 'V81L-YXDN-U7M5-QOJ9-PWFM3UN-US7044',
+        'username'			=> 'phonakmarketingwebsite',
+        'password'			=> 'Phonak1176!'
+    ), $atts ) );
+
+	wp_enqueue_script( 'momentjs', plugins_url().'/phonak-project-request/js/moment.js');
+
+	wp_enqueue_script( 'recaptcha', 'https://www.google.com/recaptcha/api.js?render=6LejP90UAAAAAEz9T38b5pRK69-qDCdr6GYw8y-k');
+	wp_enqueue_script( 'phonak-project-request-recaptcha', plugins_url().'/phonak-project-request/js/phonak-project-request-recaptcha.js', array('momentjs','recaptcha') );
+
+	$siteId =get_current_blog_id();
+
+	$success = false;
+	if(isset($_POST['submit'])){
+
+		checkCaptcha();
+
+
+		//set practive development manager
+		$practice_development_team_member = $_POST['practice_development_team_member'];
+
+		// Filter out any post items we don't need. Example: submit
+		$filterOut = ['submit','practice_development_team_member','recaptcha_response','site_id'];
+		foreach($filterOut as $out){
+			unset($_POST[$out]);
+		}
+
+		// define string replace array
+		$replace = ['_'];
+		$replaceWith = [' '];
+
+		$description = convert_post_to_description();
+
+		// Hit API
+		//$username='phonakmarketingwebsite';
+		//$password='Phonak1176!';
+		//$apikey = 'V81L-YXDN-U7M5-QOJ9-PWFM3UN-US7044';
+		$URL='https://api.proworkflow.net/projectrequests?apikey='.$apikey;
+
+		//echo $apikey.'<br />';
+		//echo $username.'<br />';
+		//echo $password.'<br />';
+
+		$projectTitle = $_POST['project_name'];
+		
+		if($siteId == 2 ||  $siteId == 3){
+			$projectData = [
+				'title' 		=> $projectTitle,
+				'description' 	=> $description
+			];
+		}else{
+			$projectData = [
+				'title' 		=> $projectTitle,
+				'description' 	=> $description,
+				'contactId'		=> $practice_development_team_member
+			];
+		}
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL,$URL);
+		curl_setopt($ch, CURLOPT_USERPWD, $username.":".$password);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $projectData);
+		$result = curl_exec($ch);
+		//print_r($result);
 
 		$status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
 		//echo '$status_code: '.$status_code.'<br/>';
@@ -328,6 +741,8 @@ function phonak_quick_project_request(){
 			// deal with any attached files after we have the project ID.
 			if(!empty($_FILES)){
 				$description .= '<strong>File Attachments</strong>';
+
+
 				foreach($_FILES as $key => $val){
 
 					if($_FILES[$key]['tmp_name'] != ''){
@@ -336,6 +751,7 @@ function phonak_quick_project_request(){
 							'name' => $_FILES[$key]['name'],
 							'projectid' => $projectId
 						];
+
 
 						$URL='https://api.proworkflow.net/files?apikey='.$apikey;
 						$ch = curl_init();
@@ -348,7 +764,8 @@ function phonak_quick_project_request(){
 
 						$result = curl_exec($ch);
 						$decodedResponse = json_decode($result);
-
+						//print_r($decodedResponse);
+						//exit;
 					}
 
 				}
@@ -374,49 +791,98 @@ function phonak_quick_project_request(){
 		//echo '<p style="color:#86bc24; text-align:center; font-size:26px; margin: 100px 0;">Project successfully submitted.<p>';
 		echo '<script>window.location="'.get_bloginfo('url').'/project-request-complete/";</script>';
 	}else{
+
+		$siteId =get_current_blog_id();
+		//echo $siteId;
+
 	?>
 
 
 		<form class="project_request_form" method="post" action="#" enctype="multipart/form-data">
 
 			<div>
-				<h3>Clinic Details</h3>
+				<label>
+					<?php 
+					if($siteId == 4){ 
+						echo 'Client Marketing Team Member'; 
+					}elseif($siteId == 2){ 
+						echo 'Marketing Executive'; 
+					}elseif($siteId == 3){ 
+						echo 'Marketing Associate'; 
+					}else{
+						echo 'Practice Development Team Member'; 
+					}
+					?> 
+				</label>
+				<select name="practice_development_team_member" style="width: 100%" >
+					<?php 
+						$sales_reps = get_posts( array(
+							'orderby'=>'menu_order', 
+							'order' => 'ASC',
+							'post_type'	=> 'pd_team',
+							'posts_per_page' => -1
+						) );
+							
+							
+						foreach ( $sales_reps as $post ) {
+							$contact_id = esc_html( get_post_meta( $post->ID, 'contact_id', true ) );
+							echo '<option value="'.$contact_id.'">'.$post->post_title.'</option>';
+						}
+						
+					?>
+				</select>
+			</div>
+
+			<div>
+				<?php 
+					$clinicWording = 'Clinic';
+					if($siteId == '2'){
+						$clinicWording = 'Account';
+					}
+				?>
+				<h3><?php echo $clinicWording; ?> Details</h3>
 				<input type="hidden" name="section_clinic_details" value="CLINIC DETAILS" />
 				<div>
-					<label>Clinic Name</label>
-					<input type="text" name="clinic_name" value="<?php if(isset($_POST['clinic_name'])){ echo $_POST['clinic_name']; } ?>" required />
+					<label><?php echo $clinicWording; ?> Name</label>
+					<input type="text" name="clinic_name" value="<?php if(isset($_POST['clinic_name'])){ echo $_POST['clinic_name']; } ?>" class="required" required />
 				</div>
 				<div style="display: none">
-					<label>Clinic Address</label>
+					<label><?php echo $clinicWording; ?> Address</label>
 					<input type="text" name="clinic_address" value="<?php if(isset($_POST['clinic_address'])){ echo $_POST['clinic_address']; } ?>"  />
 				</div>
 				<div style="display: none">
-					<label>Clinic Phone Number</label>
+					<label><?php echo $clinicWording; ?> Phone Number</label>
 					<input type="text" name="clinic_phone" value="<?php if(isset($_POST['clinic_phone'])){ echo $_POST['clinic_phone']; } ?>"  />
 				</div>
 				<div style="display: none">
-					<label>Clinic Website Address</label>
+					<label><?php echo $clinicWording; ?> Website Address</label>
 					<input type="text" name="clinic_Website" value="<?php if(isset($_POST['clinic_Website'])){ echo $_POST['clinic_Website']; } ?>"  />
 				</div>
 				<div>
-					<label>Clinic Contact Name and Email Address</label>
-					<input type="text" name="clinic_contact_name_and_email_address" value="<?php if(isset($_POST['clinic_contact_name_and_email_address'])){ echo $_POST['clinic_contact_name_and_email_address']; } ?>" required />
+					<label><?php echo $clinicWording; ?> Contact Name and Email Address</label>
+					<input type="text" name="clinic_contact_name_and_email_address" value="<?php if(isset($_POST['clinic_contact_name_and_email_address'])){ echo $_POST['clinic_contact_name_and_email_address']; } ?>" class="required" required />
 				</div>
+
 				<div>
-					<label>Regional Sales Manager?</label>
-					<select name="regional_sales_manager" style="width: 100%" required>
-						<option>Select your RSM</option>
-						<option>Brent Wildeman</option>
-						<option>Daryl Houghton</option>
-						<option>Jacques Erpelding</option>
-						<option>Janace Daley</option>
-						<option>Lara Livingston</option>
-						<option>Nadine Anis</option>
-						<option>Nicky Saldhana</option>
-						<option>Samantha McKendrick</option>
-						<option>Sarah Young</option>
+					<label><?php if($siteId == 4){ echo 'Business Solutions Manager'; }elseif($siteId == 3){ echo 'Account Manager'; }else{ echo 'Regional Sales Manager'; } ?> </label>
+					<select name="sales_manager_or_business_solutions_manager" style="width: 100%" class="required" required>
+						<?php 
+							$sales_reps = get_posts( array(
+								'orderby'    		=> 'menu_order',
+								'order' 		=> 'ASC',
+								'post_type'		=> 'sales_reps',
+								'posts_per_page' => -1,
+							) );
+							 
+							 
+							foreach ( $sales_reps as $post ) {
+							   echo '<option>'.$post->post_title.'</option>';
+							}
+							
+						?>
 					</select>
 				</div>
+				
 			</div>
 
 
@@ -425,12 +891,13 @@ function phonak_quick_project_request(){
 				<input type="hidden" name="section_project_setup" value="PROJECT SET UP" />
 				<div>
 					<label>Project Name</label>
-					<input type="text" name="project_name" value="<?php if(isset($_POST['project_name'])){ echo $_POST['project_name']; } ?>" required />
+					<input type="text" name="project_name" value="<?php if(isset($_POST['project_name'])){ echo $_POST['project_name']; } ?>" class="required" required />
 				</div>
 				<div style="display: none">
 					<label>Project Type</label>
 					<select name="project_type" style="width: 100%">
-						<option>Advertisements (1-2 weeks)</option>
+						<option></option>
+						<option>Advertisements</option>
 						<option>Branding Package (2-3 weeks)</option>
 						<option>Database Marketing (2-3 weeks)</option>
 						<option>Direct Mail Marketing (2-3 weeks)</option>
@@ -445,11 +912,11 @@ function phonak_quick_project_request(){
 				</div>
 				<div>
 					<label>Due Date</label>
-					<input type="date" name="due_date" value="<?php if(isset($_POST['due_date'])){ echo $_POST['due_date']; } ?>" required />
+					<input type="date" name="due_date" value="<?php if(isset($_POST['due_date'])){ echo $_POST['due_date']; } ?>" class="required" required />
 				</div>
 			</div>
 
-
+			<!--
 			<div style="display: none">
 				<h3>Project Design Brief</h3>
 				<input type="hidden" name="section_project_design_brief" value="PROJECT DESIGN BRIEF" />
@@ -479,27 +946,34 @@ function phonak_quick_project_request(){
 					<label>Dimensions (Width & Height)</label>
 					<input type="text" name="dimensions" value="<?php if(isset($_POST['dimensions'])){ echo $_POST['dimensions']; } ?>"  />
 				</div>
-
 			</div>
+			-->
 
 
 			<div>
 				<h3>Project Description</h3>
 				<input type="hidden" name="section_project_description" value="PROJECT DESCRIPTION" />
 				<div>
-					<textarea name="description" required><?php if(isset($_POST['project_description'])){ echo $_POST['project_description']; } ?></textarea>
+					<textarea name="description" class="required" required><?php if(isset($_POST['project_description'])){ echo $_POST['project_description']; } ?></textarea>
 				</div>
 			</div>
 
-			<div>
+			<div class="projectFileContainer">
 				<h3>Project Files</h3>
 				<div>
-					<input type="file" name="attachments"   />
+					<input type="file" name="attachments" class="attachmentsFileBtn"  />
 				</div>
 			</div>
+			
+			<div>
+				<a href="#" class="addProjectFileContainer">Need another file?</a>
+			</div>
 
-
-			<input type="submit" name="submit" value="Submit Project Request" />
+			<input type="hidden" name="recaptcha_response" id="recaptchaResponse">
+			<input type="hidden" name="site_id" id="siteID" value="<?php echo $siteId;?>" />
+			
+			<input class="projectSubmitBtn" type="submit" name="submit" value="Submit Project Request" />
+			<p class="loadingText" style="display:none">Loading... This could take some time. Thank you for your patience</p>
 		</form>
 
 
@@ -517,6 +991,11 @@ function phonak_quick_project_request(){
 	<?php
 }
 add_shortcode('phonak_quick_project_request','phonak_quick_project_request');
+
+
+
+
+
 
 
 
@@ -548,7 +1027,12 @@ add_shortcode('phonak_project_request_2','phonak_project_request_2');
 
 
 
-function phonak_project_request_2() {
+function phonak_project_request_2($atts){
+	extract( shortcode_atts( array(
+        'apikey' 			=> 'V81L-YXDN-U7M5-QOJ9-PWFM3UN-US7044',
+        'username'			=> 'phonakmarketingwebsite',
+        'password'			=> 'Phonak1176!'
+    ), $atts ) );
 	/*
 	*
 	*
@@ -572,9 +1056,9 @@ function phonak_project_request_2() {
 		$description = convert_post_to_description();
 
 		// Hit API
-		$username='phonakmarketingwebsite';
-		$password='Phonak1176!';
-		$apikey = 'V81L-YXDN-U7M5-QOJ9-PWFM3UN-US7044';
+		//$username='phonakmarketingwebsite';
+		//$password='Phonak1176!';
+		//$apikey = 'V81L-YXDN-U7M5-QOJ9-PWFM3UN-US7044';
 		$URL='https://api.proworkflow.net/projectrequests?apikey='.$apikey;
 
 		$projectTitle = $_POST['project_name'];
@@ -650,18 +1134,34 @@ function phonak_project_request_2() {
 						<input type="text" name="clinic_contact_email" value="<?php if(isset($_POST['clinic_contact_email'])){ echo $_POST['clinic_contact_email']; } ?>" />
 					</div>
 					<div>
-						<label>Regional Sales Manager?</label>
+						<label>Regional Sales Manager</label>
 						<select name="regional_sales_manager" style="width: 100%" required>
-							<option>Select your RSM</option>
-							<option>Brent Wildeman</option>
-							<option>Daryl Houghton</option>
-							<option>Jacques Erpelding</option>
-							<option>Janace Daley</option>
-							<option>Lara Livingston</option>
-							<option>Nadine Anis</option>
-							<option>Nicky Saldhana</option>
-							<option>Samantha McKendrick</option>
-							<option>Sarah Young</option>
+							<!--
+						<option>Daryl Houghton</option>
+						<option>Jacques Erpelding</option>
+						<option>Janace Daley</option>
+						<option>Lara Cox</option>
+						<option>Nadine Anis</option>
+						<option>Samantha McKendrick</option>
+						<option>Sarah Young</option>
+						<option>Tara Warren</option>
+						<option>Jeff Jones</option>
+						<option>Tracy Wentzel</option>
+						-->
+						<?php 
+							$sales_reps = get_posts( array(
+								'orderby'    		=> 'menu_order',
+								'order' 		=> 'ASC',
+								'post_type'		=> 'sales_reps',
+								'posts_per_page' => -1,
+							) );
+							 
+							 
+							foreach ( $sales_reps as $post ) {
+							   echo '<option>'.$post->post_title.'</option>';
+							}
+							
+						?>
 						</select>
 					</div>
 
@@ -752,7 +1252,13 @@ add_shortcode('phonak_project_request_2','phonak_project_request_2');
 
 
 
-function phonak_project(){
+function phonak_project($atts){
+	extract( shortcode_atts( array(
+        'apikey' 			=> 'V81L-YXDN-U7M5-QOJ9-PWFM3UN-US7044',
+        'username'			=> 'phonakmarketingwebsite',
+        'password'			=> 'Phonak1176!'
+	), $atts ) );
+	
 	$success = false;
 	//PROCESS FORM DATA IF SUBBMITED
 	if(isset($_POST['submit'])){
@@ -793,9 +1299,9 @@ function phonak_project(){
 
 
 		// Hit API
-		$username='phonakmarketingwebsite';
-		$password='Phonak1176!';
-		$apikey = 'V81L-YXDN-U7M5-QOJ9-PWFM3UN-US7044';
+		//$username='phonakmarketingwebsite';
+		//$password='Phonak1176!';
+		//$apikey = 'V81L-YXDN-U7M5-QOJ9-PWFM3UN-US7044';
 		$URL='https://api.proworkflow.net/projectrequests?apikey='.$apikey;
 
 		$projectTitle = $_POST['clinic_name'].' | '.$_POST['project_type'];

@@ -280,3 +280,33 @@ a.redirect:hover {
 .project_request_form > div > div.additionalTabContent > div.tab > div > div{
     margin-bottom: 10px;
 }
+
+
+
+
+@media only screen and (max-width: 700px) {
+    #ui-datepicker-div{
+        position: fixed !important;
+        top: initial !important;
+        left: 0 !important;
+        z-index: 1000 !important;
+        display: block;
+        bottom: 0;
+        width: 100%;
+    }
+}
+
+.attachmentsFileBtn{
+    font-size: 20px;
+}
+
+/*
+.addProjectFileContainer{
+padding: 10px 15px;
+border: none;
+background: #86bc23;
+color: #fff;
+margin-bottom: 20px;
+font-size: 18px;
+}
+*/
