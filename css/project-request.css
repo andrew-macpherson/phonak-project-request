@@ -189,6 +189,9 @@
 .project_request_form > div > div > label{
 	display: block;
 }
+.project_request_form > div > div > input[type="radio"] +label {
+    display: inline-block;
+}
 
 .project_request_form > div > div > input[type="text"],
 .project_request_form > div > div > input[type="email"],
